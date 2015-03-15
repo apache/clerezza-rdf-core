@@ -26,7 +26,6 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.concurrent.Callable;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.rdf.BlankNode;
 import org.apache.commons.rdf.BlankNodeOrIri;
@@ -50,7 +49,6 @@ public class SparqlGraph extends AbstractGraph {
     private static final Logger log = Logger.getLogger(SparqlGraph.class.getName());
 
     final SparqlClient sparqlClient;
-    
 
     /**
      * Constructs a Graph representing the default graph at the specified
@@ -64,27 +62,8 @@ public class SparqlGraph extends AbstractGraph {
     protected Iterator<Triple> performFilter(final BlankNodeOrIri filterSubject,
             final Iri filterPredicate, final RdfTerm filterObject) {
         try {
-            final StringBuilder queryBuilder = new StringBuilder();
-            queryBuilder.append("SELECT ?s ?p ?o WHERE { ");
-            if (filterSubject == null) {
-                queryBuilder.append("?s");
-            } else {
-                queryBuilder.append(asSparqlTerm(filterSubject));
-            }
-            queryBuilder.append(' ');
-            if (filterPredicate == null) {
-                queryBuilder.append("?p");
-            } else {
-                queryBuilder.append(asSparqlTerm(filterPredicate));
-            }
-            queryBuilder.append(' ');
-            if (filterObject == null) {
-                queryBuilder.append("?o");
-            } else {
-                queryBuilder.append(asSparqlTerm(filterObject));
-            }
-            queryBuilder.append(" }");
-            final List<Map<String, RdfTerm>> sparqlResults = sparqlClient.queryResultSet(queryBuilder.toString());
+            String query = createQuery(filterSubject, filterPredicate, filterObject);
+            final List<Map<String, RdfTerm>> sparqlResults = sparqlClient.queryResultSet(query);
             //first to triples without bnode-conversion
             //rawTriples contains the triples with the BNodes from the result set
             final Collection<Triple> rawTriples = new ArrayList<>();
@@ -231,57 +210,10 @@ public class SparqlGraph extends AbstractGraph {
                  * @return
                  */
                 private Set<ImmutableGraph> expandContext(Collection<Triple> startContext) throws IOException {
-                    final Collection<String> triplePatterns = new ArrayList<>();
-                    int varCounter = 0;
-                    final Map<BlankNode, String> bNodeVarNameMap = new HashMap<>();
-                    for (Triple t : startContext) {
-                        final StringBuilder builder = new StringBuilder();
-                        {
-                            final BlankNodeOrIri s = t.getSubject();
-                            String varName;
-                            if (s instanceof BlankNode) {
-                                if (bNodeVarNameMap.containsKey(s)) {
-                                    varName = bNodeVarNameMap.get(s);
-                                } else {
-                                    varName = "v" + (varCounter++);
-                                    bNodeVarNameMap.put((BlankNode) s, varName);
-                                    
-                                }
-                                builder.append('?');
-                                builder.append(varName);
-                            } else {
-                                builder.append(asSparqlTerm(s));
-                            }
-                        }
-                        builder.append(' ');
-                        builder.append(asSparqlTerm(t.getPredicate()));
-                        builder.append(' ');
-                        {
-                            final RdfTerm o = t.getObject();
-                            String varName;
-                            if (o instanceof BlankNode) {
-                                if (bNodeVarNameMap.containsKey(o)) {
-                                    varName = bNodeVarNameMap.get(o);
-                                } else {
-                                    varName = "v" + (varCounter++);
-                                    bNodeVarNameMap.put((BlankNode) o, varName);
-                                }
-                                builder.append('?');
-                                builder.append(varName);
-                            } else {
-                                builder.append(asSparqlTerm(o));
-                            }
-                        }
-                        builder.append('.');
-                        triplePatterns.add(builder.toString());
 
-                    }
                     final StringBuilder queryBuilder = new StringBuilder();
                     queryBuilder.append("SELECT * WHERE {\n ");
-                    for (String triplePattern : triplePatterns) {
-                        queryBuilder.append(triplePattern);
-                        queryBuilder.append('\n');
-                    }
+                    Map<BlankNode, String> bNodeVarNameMap = writeTriplePattern(queryBuilder, startContext);
                     Set<BlankNode> bNodesInContext = bNodeVarNameMap.keySet();
                     for (BlankNode bNode : bNodesInContext) {
                         final String bNodeVarLabel = bNodeVarNameMap.get(bNode);
@@ -404,6 +336,49 @@ public class SparqlGraph extends AbstractGraph {
         }
     }
 
+    private String createQuery(final BlankNodeOrIri filterSubject, final Iri filterPredicate, final RdfTerm filterObject) {
+        final StringBuilder queryBuilder = new StringBuilder();
+        queryBuilder.append("SELECT ?s ?p ?o WHERE { ");
+        if (filterSubject == null) {
+            queryBuilder.append("?s");
+        } else {
+            if (filterSubject instanceof SparqlBNode) {
+                queryBuilder.append("?sn");
+            } else {
+                queryBuilder.append(asSparqlTerm(filterSubject));
+            }
+        }
+        queryBuilder.append(' ');
+        if (filterPredicate == null) {
+            queryBuilder.append("?p");
+        } else {
+            queryBuilder.append(asSparqlTerm(filterPredicate));
+        }
+        queryBuilder.append(' ');
+        if (filterObject == null) {
+            queryBuilder.append("?o");
+        } else {
+            if (filterObject instanceof SparqlBNode) {
+                queryBuilder.append("?on");
+            } else {
+                queryBuilder.append(asSparqlTerm(filterObject));
+            }
+        }
+        queryBuilder.append(" .\n");
+        if (filterSubject instanceof SparqlBNode) {
+            //expand bnode context
+            writeTriplePattern(queryBuilder, ((SparqlBNode) filterSubject).context, "sn");
+        }
+        
+        if (filterObject instanceof SparqlBNode) {
+            //expand bnode context
+            writeTriplePattern(queryBuilder, ((SparqlBNode) filterObject).context, "on");
+        }
+
+        queryBuilder.append(" }");
+        return queryBuilder.toString();
+    }
+
     @Override
     protected int performSize() {
         try {
@@ -427,7 +402,7 @@ public class SparqlGraph extends AbstractGraph {
             throw new AlienBNodeException();
         }
         //this requires adding additional clauses to the graph pattern
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new RuntimeException("SparqlBNodes should have been handled earlier");
     }
 
     private String asSparqlTerm(BlankNodeOrIri term) {
@@ -444,6 +419,76 @@ public class SparqlGraph extends AbstractGraph {
         } else {
             return asSparqlTerm((Literal) term);
         }
+    }
+
+
+    private Map<BlankNode, String> writeTriplePattern(StringBuilder queryBuilder, Collection<Triple> triples) {
+        return writeTriplePattern(queryBuilder, triples, null);
+    }
+        
+    private Map<BlankNode, String> writeTriplePattern(StringBuilder queryBuilder, Collection<Triple> triples, String varLabelForInternalBNodeId) {
+        final Collection<String> triplePatterns = new ArrayList<>();
+        int varCounter = 0;
+        final Map<BlankNode, String> bNodeVarNameMap = new HashMap<>();
+        for (Triple t : triples) {
+            final StringBuilder builder = new StringBuilder();
+            {
+                final BlankNodeOrIri s = t.getSubject();
+                String varName;
+                if (s instanceof BlankNode) {
+                    if (bNodeVarNameMap.containsKey(s)) {
+                        varName = bNodeVarNameMap.get(s);
+                    } else {
+                        varName = "v" + (varCounter++);
+                        bNodeVarNameMap.put((BlankNode) s, varName);
+                    }
+                    builder.append('?');
+                    builder.append(varName);
+                } else {
+                    if (s.equals(SparqlBNode.internalBNodeId)) {
+                        builder.append('?');
+                        builder.append(varLabelForInternalBNodeId);
+                    } else {
+                        builder.append(asSparqlTerm(s));
+                    }
+                    
+                }
+            }
+            builder.append(' ');
+            builder.append(asSparqlTerm(t.getPredicate()));
+            builder.append(' ');
+            {
+                final RdfTerm o = t.getObject();
+                String varName;
+                if (o instanceof BlankNode) {
+                    if (bNodeVarNameMap.containsKey(o)) {
+                        varName = bNodeVarNameMap.get(o);
+                    } else {
+                        varName = "v" + (varCounter++);
+                        bNodeVarNameMap.put((BlankNode) o, varName);
+                    }
+                    builder.append('?');
+                    builder.append(varName);
+                } else {
+                    if (o.equals(SparqlBNode.internalBNodeId)) {
+                        builder.append('?');
+                        builder.append(varLabelForInternalBNodeId);
+                    } else {
+                        builder.append(asSparqlTerm(o));
+                    }
+                }
+            }
+            builder.append('.');
+            triplePatterns.add(builder.toString());
+
+        }
+        for (String triplePattern : triplePatterns) {
+
+            queryBuilder.append(triplePattern);
+            queryBuilder.append('\n');
+        }
+        return bNodeVarNameMap;
+
     }
 
     private static class AlienBNodeException extends RuntimeException {

@@ -32,7 +32,7 @@ import org.apache.commons.rdf.impl.utils.simple.SimpleGraph;
  */
 class SparqlBNode extends BlankNode {
     
-    private final static Iri internalBNodeId = new Iri("urn:x-internalid:fdmpoihdfw");
+    final static Iri internalBNodeId = new Iri("urn:x-internalid:fdmpoihdfw");
     
     final ImmutableGraph context;
     private final int isoDistinguisher;
