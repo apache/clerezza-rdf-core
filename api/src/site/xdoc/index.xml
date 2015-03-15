@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<document>
+
+    <properties>
+        <title>Overview</title>
+        <author email="dev@commons.apache.org">Apache Commons Documentation Team</author>
+    </properties>
+
+    <body>
+
+        <section name="Apache Commons RDF">
+            <p>
+                Apache Commons RDF provides an API modelling the RDF data model as defined by 
+                http://www.w3.org/TR/rdf11-concepts/
+            </p>
+        </section>
+        <section name="Features">
+            <p>
+                This Library shall
+                <ul>
+                    <li>Allow to access, modify nad monitor RDF data</li>
+                    <li>Support all concepts defined by the RDF Abstract Syntax</li>
+                    <li>Provide an easy to use API</li>
+                    <li>Support both triple stores as well as the wrapping other sources</li>
+                    <li>Allow to seamlessly use instances coming from different sources</li>
+                    <li>Integrate well with existing Java APIs</li>
+                </ul>
+            </p>
+        </section>
+
+</document>
+
