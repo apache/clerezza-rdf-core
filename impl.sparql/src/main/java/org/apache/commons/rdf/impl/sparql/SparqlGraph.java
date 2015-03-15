@@ -30,12 +30,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.rdf.BlankNode;
 import org.apache.commons.rdf.BlankNodeOrIri;
+import org.apache.commons.rdf.Graph;
+import org.apache.commons.rdf.ImmutableGraph;
 import org.apache.commons.rdf.Iri;
 import org.apache.commons.rdf.Literal;
 import org.apache.commons.rdf.RdfTerm;
 import org.apache.commons.rdf.Triple;
 import org.apache.commons.rdf.impl.utils.AbstractGraph;
 import org.apache.commons.rdf.impl.utils.TripleImpl;
+import org.apache.commons.rdf.impl.utils.simple.SimpleGraph;
 
 /**
  *
@@ -47,6 +50,7 @@ public class SparqlGraph extends AbstractGraph {
     private static final Logger log = Logger.getLogger(SparqlGraph.class.getName());
 
     final SparqlClient sparqlClient;
+    
 
     /**
      * Constructs a Graph representing the default graph at the specified
@@ -82,7 +86,7 @@ public class SparqlGraph extends AbstractGraph {
             queryBuilder.append(" }");
             final List<Map<String, RdfTerm>> sparqlResults = sparqlClient.queryResultSet(queryBuilder.toString());
             //first to triples without bnode-conversion
-            //rawTripkles contains the triples with the BNodes from the result set
+            //rawTriples contains the triples with the BNodes from the result set
             final Collection<Triple> rawTriples = new ArrayList<>();
             for (Map<String, RdfTerm> result : sparqlResults) {
                 rawTriples.add(new TripleImpl(filterSubject != null ? filterSubject : (BlankNodeOrIri) result.get("s"),
@@ -96,6 +100,7 @@ public class SparqlGraph extends AbstractGraph {
             return (new Callable<Iterator<Triple>>() {
 
                 final Map<BlankNode, SparqlBNode> nodeMap = new HashMap<>();
+                final Set<ImmutableGraph> usedContext = new HashSet<>();
 
                 private RdfTerm useSparqlNode(RdfTerm node) throws IOException {
                     if (node instanceof BlankNodeOrIri) {
@@ -149,7 +154,7 @@ public class SparqlGraph extends AbstractGraph {
                     }
                 }
 
-                private Collection<Triple> getContext(final BlankNode node) throws IOException {
+                private ImmutableGraph getContext(final BlankNode node) throws IOException {
                     //we need to get the cntext of the BNode
                     //if the filter was for (null, null, null) we have the whole
                     //bnode context in the reuslt set, otherwise we need to get 
@@ -159,30 +164,41 @@ public class SparqlGraph extends AbstractGraph {
                             && (filterObject == null)) {
                         return getContextInRaw(node);
                     } else {
-                        final Collection<Triple> startContext = getContextInRaw(node);
-                        final Set<Collection<Triple>> expandedContexts = expandContext(startContext);
+                        final ImmutableGraph startContext = getContextInRaw(node);
+                        final Set<ImmutableGraph> expandedContexts = expandContext(startContext);
                         //expand bnode context
                         //note that there might be different contexts for 
                         //a bnode as present in the current result set
                         //in this case we just haveto make sure we don't 
                         //pick the same context for different bnodes in the resultset
-
-                        //TODO make sure we don't take one that has already been used
-                        return expandedContexts.iterator().next();
+                        ImmutableGraph result = null;
+                        for (ImmutableGraph expandedContext : expandedContexts) {
+                            if (!usedContext.contains(expandedContext)) {
+                                result = expandedContext;
+                                break;
+                            }
+                        }
+                        if (result == null) {
+                            log.warning("he underlying sparql graph seems to contain redundant triples, this might cause unexpected results");
+                            result = expandedContexts.iterator().next();
+                        } else {
+                            usedContext.add(result);
+                        }
+                        return result;
                     }
 
                 }
 
-                private Collection<Triple> getContextInRaw(BlankNode node) {
-                    final Collection<Triple> context = new ArrayList<>();
+                private ImmutableGraph getContextInRaw(BlankNode node) {
+                    final Graph contextBuilder = new SimpleGraph();
                     for (Triple rawTriple : rawTriples) {
                         BlankNodeOrIri rawSubject = rawTriple.getSubject();
                         RdfTerm rawObject = rawTriple.getObject();
                         if (rawSubject.equals(node) || rawObject.equals(node)) {
-                            context.add(rawTriple);
+                            contextBuilder.add(rawTriple);
                         }
                     }
-                    return context;
+                    return contextBuilder.getImmutableGraph();
                 }
 
                 @Override
@@ -214,7 +230,7 @@ public class SparqlGraph extends AbstractGraph {
                  * @param startContext
                  * @return
                  */
-                private Set<Collection<Triple>> expandContext(Collection<Triple> startContext) throws IOException {
+                private Set<ImmutableGraph> expandContext(Collection<Triple> startContext) throws IOException {
                     final Collection<String> triplePatterns = new ArrayList<>();
                     int varCounter = 0;
                     final Map<BlankNode, String> bNodeVarNameMap = new HashMap<>();
@@ -292,7 +308,7 @@ public class SparqlGraph extends AbstractGraph {
                     }
                     queryBuilder.append(" }");
                     final List<Map<String, RdfTerm>> expansionQueryResults = sparqlClient.queryResultSet(queryBuilder.toString());
-                    Set<Collection<Triple>> expandedContexts = new HashSet<>();
+                    Set<ImmutableGraph> expandedContexts = new HashSet<>();
                     //the query results may or may be from disjoint supergraphs
                     //we expand them all as if they are different which may lead
                     //us to the same MSG multiple times
@@ -362,7 +378,7 @@ public class SparqlGraph extends AbstractGraph {
 
                     }
                     if (expandedContexts.isEmpty()) {
-                        expandedContexts.add(startContext);
+                        expandedContexts.add(new SimpleGraph(startContext).getImmutableGraph());
                     }
                     return expandedContexts;
                 }
