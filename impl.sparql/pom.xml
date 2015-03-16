@@ -13,8 +13,8 @@
     <packaging>jar</packaging>
     <name>Apache Commons RDF SPARQL backed implementation.</name>
     <description>An implementation of the rdf commons API backed by a sparql 
-        endpoint. STATUS: Incomplete, currecnt code only supports reading 
-        graphs and does not yet support BlankNodes.</description>
+        endpoint. STATUS: Current code only supports reading 
+        graphs.</description>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <commons.encoding>UTF-8</commons.encoding>
