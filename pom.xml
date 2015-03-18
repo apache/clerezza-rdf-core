@@ -19,43 +19,46 @@
 -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <parent>
-        <groupId>org.apache.commons</groupId>
-        <artifactId>commons-parent</artifactId>
-        <version>36</version>
-    </parent>
+    <!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+         !!!!!!                                !!!!!!
+         !!!!!!    This pom is only provided   !!!!!!
+         !!!!!!   for build convenience and    !!!!!!
+         !!!!!!   should not be released       !!!!!!
+         !!!!!!                                !!!!!!
+         !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+
     <modelVersion>4.0.0</modelVersion>
-    <groupId>commons-rdf</groupId>
-    <artifactId>commons-rdf</artifactId>
+    
+    <parent>
+        <groupId>org.apache.clerezza</groupId>
+        <artifactId>clerezza</artifactId>
+        <version>0.5</version>
+        <relativePath />
+     </parent>
+
+    <groupId>org.apache.clerezza.commons-rdf</groupId>
+    <artifactId>commons-reactor</artifactId>
     <packaging>pom</packaging>
     <version>0.1-SNAPSHOT</version>
-    <name>Apache Commons RDF Reactor</name>
+    <name>Clerezza Commons RDF Reactor</name>
     <description>
         Apache Commons RDF provides an API modelling the RDF data model as defined by 
         http://www.w3.org/TR/rdf11-concepts/
     </description>
-    <url>http://commons.apache.org/sandbox/commons-rdf/</url>
-    <!-- TBD
+    
+    <url>http://clerezza.apache.org/commons-rdf/</url>
+    
     <issueManagement>
         <system>jira</system>
-        <url>http://issues.apache.org/jira/browse/RDF</url>
+        <url>http://issues.apache.org/jira/browse/CLEREZZA</url>
     </issueManagement>
-    -->
-    <inceptionYear>2014</inceptionYear>
+    
+    <inceptionYear>2015</inceptionYear>
     <scm>
-        <connection>scm:svn:http://svn.apache.org/repos/asf/commons/proper/rdf/trunk</connection>
-        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/commons/proper/rdf/trunk</developerConnection>
-        <url>http://svn.apache.org/viewvc/commons/proper/rdf/trunk</url>
+        <connection>scm:git:https://git-wip-us.apache.org/repos/asf/clerezza-rdf-core.git</connection>
+        <developerConnection>scm:git:https://git-wip-us.apache.org/repos/asf/clerezza-rdf-core.git</developerConnection>
+        <url>https://git-wip-us.apache.org/repos/asf/clerezza-rdf-core.git</url>
     </scm>
-
-
-    <distributionManagement>
-        <site>
-            <id>apache.website</id>
-            <name>Apache Commons Site</name>
-            <url>${commons.deployment.protocol}://people.apache.org/www/commons.apache.org/${commons.componentid}</url>
-        </site>
-    </distributionManagement>
 
     <modules>
         <module>api</module>

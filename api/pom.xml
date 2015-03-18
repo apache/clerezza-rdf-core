@@ -19,32 +19,36 @@
 -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+        <modelVersion>4.0.0</modelVersion>
+    
     <parent>
-        <groupId>org.apache.commons</groupId>
-        <artifactId>commons-parent</artifactId>
-        <version>37</version>
-    </parent>
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>commons-rdf</groupId>
+        <groupId>org.apache.clerezza</groupId>
+        <artifactId>clerezza</artifactId>
+        <version>0.5</version>
+        <relativePath />
+     </parent>
+
+    <groupId>org.apache.clerezza.commons-rdf</groupId>
     <artifactId>commons-rdf-api</artifactId>
     <version>0.1-SNAPSHOT</version>
-    <name>Apache Commons RDF API</name>
+    <name>Clerezza Commons RDF API</name>
     <description>
         Apache Commons RDF provides an API modelling the RDF data model as defined by 
         http://www.w3.org/TR/rdf11-concepts/
     </description>
-    <url>http://commons.apache.org/sandbox/commons-rdf/</url>
-    <!-- TBD
+    
+    <url>http://clerezza.apache.org/commons-rdf/</url>
+    
     <issueManagement>
         <system>jira</system>
-        <url>http://issues.apache.org/jira/browse/RDF</url>
+        <url>http://issues.apache.org/jira/browse/CLEREZZA</url>
     </issueManagement>
-    -->
-    <inceptionYear>2014</inceptionYear>
+    
+    <inceptionYear>2015</inceptionYear>
     <scm>
-        <connection>scm:svn:http://svn.apache.org/repos/asf/commons/proper/rdf/trunk</connection>
-        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/commons/proper/rdf/trunk</developerConnection>
-        <url>http://svn.apache.org/viewvc/commons/proper/rdf/trunk</url>
+        <connection>scm:git:https://git-wip-us.apache.org/repos/asf/clerezza-rdf-core.git</connection>
+        <developerConnection>scm:git:https://git-wip-us.apache.org/repos/asf/clerezza-rdf-core.git</developerConnection>
+        <url>https://git-wip-us.apache.org/repos/asf/clerezza-rdf-core.git</url>
     </scm>
 
 
@@ -81,307 +85,5 @@
         <commons.jira.pid></commons.jira.pid> -->
     </properties>
 
-    <build>
-        <pluginManagement>
-          <plugins>
-            <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-compiler-plugin</artifactId>
-              <version>${commons.compiler.version}</version>
-              <configuration>
-                <!-- Fix incremental compiler bug, see https://jira.codehaus.org/browse/MCOMPILER-205 etc. -->
-                <excludes>
-                  <exclude>**/package-info.java</exclude>
-                </excludes>
-              </configuration>
-            </plugin>
-          </plugins>
-        </pluginManagement>
-        <plugins>
-
-            <!-- Exclude examples from binary jar -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <exclude>examples/**</exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
-
-            <!-- Exclude examples from source jar -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <exclude>examples/**</exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <exclude>**/*FunctionalTest.java</exclude>
-                        <exclude>**/POP3*Test.java</exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <configuration>
-                    <descriptors>
-                        <descriptor>src/main/assembly/bin.xml</descriptor>
-                        <descriptor>src/main/assembly/src.xml</descriptor>
-                    </descriptors>
-                    <tarLongFileMode>gnu</tarLongFileMode>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <configuration>
-                            <target>
-                                <jar destfile="target/commons-net-ftp-${project.version}.jar">
-                                    <metainf dir="${basedir}" includes="NOTICE.txt,LICENSE.txt" />
-                                    <manifest>
-                                        <attribute name="Extension-Name" value="org.apache.commons.net" />
-                                        <attribute name="Specification-Title" value="${project.name}" />
-                                        <attribute name="Implementation-Title" value="${project.name}" />
-                                        <attribute name="Implementation-Vendor" value="${project.organization.name}" />
-                                        <attribute name="Implementation-Version" value="${project.version}" />
-                                        <attribute name="Implementation-Vendor-Id" value="org.apache" />
-                                        <attribute name="Implementation-Build" value="${implementation.build}"/>
-                                        <attribute name="X-Compile-Source-JDK" value="${maven.compiler.source}" />
-                                        <attribute name="X-Compile-Target-JDK" value="${maven.compiler.target}" />
-                                    </manifest>
-                                    <fileset dir="target/classes" includes="org/apache/commons/net/ftp/**,org/apache/commons/net/*,org/apache/commons/net/io/*,org/apache/commons/net/util/*" />
-                                </jar>
-                                <!--
-                                    Create the binary examples jar, which will be added to the binary zip/tgz,
-                                    but not deployed independently to Maven
-                                -->
-                                <jar destfile="target/commons-net-examples-${project.version}.jar">
-                                    <metainf dir="${basedir}" includes="NOTICE.txt,LICENSE.txt" />
-                                    <manifest>
-                                        <attribute name="Extension-Name" value="org.apache.commons.net" />
-                                        <attribute name="Specification-Title" value="${project.name}" />
-                                        <attribute name="Implementation-Title" value="${project.name}" />
-                                        <attribute name="Implementation-Vendor" value="${project.organization.name}" />
-                                        <attribute name="Implementation-Version" value="${project.version}" />
-                                        <attribute name="Implementation-Vendor-Id" value="org.apache" />
-                                        <attribute name="Implementation-Build" value="${implementation.build}"/>
-                                        <attribute name="X-Compile-Source-JDK" value="${maven.compiler.source}" />
-                                        <attribute name="X-Compile-Target-JDK" value="${maven.compiler.target}" />
-                                        <!-- Helper application -->
-                                        <attribute name="Main-Class" value="examples/Main" />
-                                        <!-- Allow java -jar examples.jar to work -->
-                                        <attribute name="Class-Path" value="commons-net-${project.version}.jar" />
-                                    </manifest>
-                                    <fileset dir="target/classes" includes="examples/**" />
-                                </jar>
-                            </target>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <!--  Attaches the commons-net-ftp and examples JARs to the Maven lifecycle
-                  to ensure they will be signed and deployed as normal -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <version>1.8</version>
-                <executions>
-                    <execution>
-                        <id>attach-artifacts</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>attach-artifact</goal>
-                        </goals>
-                        <configuration>
-                            <artifacts>
-                                <artifact>
-                                    <file>target/commons-net-ftp-${project.version}.jar</file>
-                                    <type>jar</type>
-                                    <classifier>ftp</classifier>
-                                </artifact>
-                                <artifact>
-                                    <file>target/commons-net-examples-${project.version}.jar</file>
-                                    <type>jar</type>
-                                    <classifier>examples</classifier>
-                                </artifact>
-                            </artifacts>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!-- Exclude examples from Javadoc jar -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <configuration>
-                    <excludePackageNames>examples.*</excludePackageNames>
-                </configuration>
-            </plugin>
-
-            <!-- Copy the examples sources -->
-            <plugin>
-              <artifactId>maven-resources-plugin</artifactId>
-              <executions>
-                <execution>
-                  <id>copy-resources</id>
-                  <phase>pre-site</phase>
-                  <goals>
-                    <goal>copy-resources</goal>
-                  </goals>
-                  <configuration>
-                    <outputDirectory>${basedir}/target/site/examples</outputDirectory>
-                    <resources>
-                      <resource>
-                        <directory>src/main/java/examples</directory>
-                        <excludes>
-                          <exclude>**/Main.java</exclude>
-                        </excludes>
-                        <filtering>false</filtering>
-                      </resource>
-                    </resources>
-                  </configuration>
-                </execution>
-              </executions>
-            </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-scm-publish-plugin</artifactId>
-            <configuration>
-              <ignorePathsToDelete>
-                <ignorePathToDelete>javadocs</ignorePathToDelete>
-              </ignorePathsToDelete>
-            </configuration>
-          </plugin>
-
-        </plugins>
-
-    </build>
-
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-changes-plugin</artifactId>
-                <version>${commons.changes.version}</version>
-                <configuration>
-                    <issueLinkTemplatePerSystem>
-                        <default>%URL%/%ISSUE%</default>
-                    </issueLinkTemplatePerSystem>
-                    <template>release-notes.vm</template>
-                    <templateDirectory>src/changes</templateDirectory>
-                    <!--  Add sample JIRA report - 'mvn changes:jira-report' or 'mvn site' -->
-                    <onlyCurrentVersion>false</onlyCurrentVersion>
-                    <columnNames>Fix Version,Key,Component,Summary,Type,Resolution,Status</columnNames>
-                    <!-- Sort cols have to be reversed in JIRA 4 -->
-                    <sortColumnNames>Key DESC,Type,Fix Version DESC</sortColumnNames>
-                    <resolutionIds>Fixed</resolutionIds>
-                    <statusIds>Resolved,Closed</statusIds>
-                    <!-- Don't include sub-task -->
-                    <typeIds>Bug,New Feature,Task,Improvement,Wish,Test</typeIds>
-                    <fixVersionIds>${commons.release.version}</fixVersionIds>
-                    <!-- The default is 100 -->
-                    <maxEntries>100</maxEntries>
-                </configuration>
-                <reportSets>
-                    <reportSet>
-                        <reports>
-                            <report>changes-report</report>
-                            <report>jira-report</report>
-                        </reports>
-                    </reportSet>
-                </reportSets>
-            </plugin>
-
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>findbugs-maven-plugin</artifactId>
-                <version>2.5.5</version>
-                <configuration>
-                    <excludeFilterFile>findbugs-exclude-filter.xml</excludeFilterFile>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>clirr-maven-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                      <exclude>examples/**</exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <configuration>
-                    <excludePackageNames>examples.*</excludePackageNames>
-                </configuration>
-                <reportSets>
-                  <reportSet>
-                    <reports>
-                      <report>javadoc</report>
-                    </reports>
-                  </reportSet>
-                </reportSets>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>2.11</version>
-                <configuration>
-                    <configLocation>${basedir}/checkstyle.xml</configLocation>
-                    <suppressionsLocation>${basedir}/checkstyle-suppressions.xml</suppressionsLocation>
-                    <enableRulesSummary>false</enableRulesSummary>
-                </configuration>
-            </plugin>
-
-            <plugin>
-              <groupId>org.apache.rat</groupId>
-              <artifactId>apache-rat-plugin</artifactId>
-              <!-- Parent pom does not (yet) exclude these -->
-              <configuration>
-                <excludes>
-                  <exclude>.checkstyle</exclude>
-                  <exclude>.fbprefs</exclude>
-                </excludes>
-              </configuration>
-            </plugin>
-
-        </plugins>
-    </reporting>
-
-    <profiles>
-      <profile>
-        <!-- Temporary hack to suppress Javadoc 8 errors -->
-        <id>javadoc_8</id>
-        <activation>
-          <jdk>1.8</jdk>
-        </activation>
-        <properties>
-          <!-- Disable Xdoclint, until JavaDoc issues are fixed -->
-          <additionalparam>-Xdoclint:none</additionalparam>
-        </properties>
-      </profile>
-    </profiles>
 
 </project>
