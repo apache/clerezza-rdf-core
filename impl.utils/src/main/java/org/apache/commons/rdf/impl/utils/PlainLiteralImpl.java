@@ -28,7 +28,7 @@ import org.apache.commons.rdf.Literal;
  *
  * @author reto
  */
-public class PlainLiteralImpl implements Literal, Serializable {
+public class PlainLiteralImpl extends AbstractLiteral implements Literal, Serializable {
 
     private String lexicalForm;
     private Language language = null;
@@ -51,33 +51,6 @@ public class PlainLiteralImpl implements Literal, Serializable {
     @Override
     public String getLexicalForm() {
         return lexicalForm;
-    }
-
-    @Override
-    public boolean equals(Object otherObj) {
-        if (!(otherObj instanceof Literal)) {
-            return false;
-        }
-        Literal other = (Literal) otherObj;
-        if (!lexicalForm.equals(other.getLexicalForm())) {
-            return false;
-        }
-        if (language != null) {
-            return language.equals(other.getLanguage());
-        }
-        if (other.getLanguage() != null) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = lexicalForm.hashCode() + XSD_STRING_HASH;
-        if (language != null) {
-            hash += language.hashCode();
-        }
-        return hash;
     }
 
     @Override

@@ -22,24 +22,26 @@ import java.io.Serializable;
 
 import org.apache.commons.rdf.Iri;
 import org.apache.commons.rdf.Language;
-import org.apache.commons.rdf.Literal;
 
 /**
  *
  * @author reto
  */
-public class TypedLiteralImpl extends AbstractLiteral implements  Serializable {
+public class LiteralImpl extends AbstractLiteral implements  Serializable {
     private String lexicalForm;
     private Iri dataType;
     private int hashCode;
+    private Language language;
 
     /**
      * @param lexicalForm 
      * @param dataType 
+     * @param Language the language of this literal
      */
-    public TypedLiteralImpl(String lexicalForm, Iri dataType) {
+    public LiteralImpl(String lexicalForm, Iri dataType, Language language) {
         this.lexicalForm = lexicalForm;
         this.dataType = dataType;
+        this.language = language;
         this.hashCode = super.hashCode();
     }
     
@@ -74,7 +76,7 @@ public class TypedLiteralImpl extends AbstractLiteral implements  Serializable {
 
     @Override
     public Language getLanguage() {
-        return null;
+        return language;
     }
 
 }
