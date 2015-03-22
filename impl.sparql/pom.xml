@@ -13,7 +13,7 @@
     <groupId>org.apache.clerezza.commons-rdf</groupId>
     <artifactId>commons-rdf-impl-sparql</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>bundle</packaging>
     <name>Clerezza Commons RDF SPARQL backed implementation.</name>
     <description>An implementation of the rdf commons API backed by a sparql 
         endpoint. STATUS: Current code only supports reading 

@@ -26,11 +26,12 @@
         <artifactId>clerezza</artifactId>
         <version>0.5</version>
         <relativePath />
-     </parent>
+    </parent>
 
     <groupId>org.apache.clerezza.commons-rdf</groupId>
     <artifactId>commons-rdf-impl-utils</artifactId>
     <version>0.1-SNAPSHOT</version>
+    <packaging>bundle</packaging>
     <name>Clerezza Commons RDF Implementation Utils</name>
     <description>
         Apache Commons RDF provides an API modelling the RDF data model as defined by 
@@ -50,6 +51,21 @@
         <developerConnection>scm:git:https://git-wip-us.apache.org/repos/asf/clerezza-rdf-core.git</developerConnection>
         <url>https://git-wip-us.apache.org/repos/asf/clerezza-rdf-core.git</url>
     </scm>
+    
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <extensions>true</extensions>
+                <configuration>
+                    <instructions>
+                        <Export-Package>org.apache.commons.rdf.*</Export-Package>
+                    </instructions>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 
     <dependencies>

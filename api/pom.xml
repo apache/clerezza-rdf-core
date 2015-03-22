@@ -31,6 +31,7 @@
     <groupId>org.apache.clerezza.commons-rdf</groupId>
     <artifactId>commons-rdf-api</artifactId>
     <version>0.1-SNAPSHOT</version>
+    <packaging>bundle</packaging>
     <name>Clerezza Commons RDF API</name>
     <description>
         Apache Commons RDF provides an API modelling the RDF data model as defined by 
