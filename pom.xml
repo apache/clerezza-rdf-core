@@ -40,7 +40,7 @@
     <artifactId>commons-reactor</artifactId>
     <packaging>pom</packaging>
     <version>0.1-SNAPSHOT</version>
-    <name>Clerezza Commons RDF Reactor</name>
+    <name>Clerezza Commons RDF</name>
     <description>
         Apache Commons RDF provides an API modelling the RDF data model as defined by 
         http://www.w3.org/TR/rdf11-concepts/
