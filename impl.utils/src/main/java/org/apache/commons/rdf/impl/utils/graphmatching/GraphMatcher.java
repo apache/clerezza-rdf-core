@@ -24,6 +24,8 @@ package org.apache.commons.rdf.impl.utils.graphmatching;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.commons.rdf.BlankNode;
 import org.apache.commons.rdf.BlankNodeOrIri;
 import org.apache.commons.rdf.Graph;
@@ -31,8 +33,6 @@ import org.apache.commons.rdf.RdfTerm;
 import org.apache.commons.rdf.Triple;
 import org.apache.commons.rdf.impl.utils.TripleImpl;
 import org.apache.commons.rdf.impl.utils.simple.SimpleMGraph;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author reto
@@ -41,7 +41,7 @@ import org.slf4j.LoggerFactory;
 public class GraphMatcher {
 
 
-    private final static Logger log = LoggerFactory.getLogger(GraphMatcher.class);
+    private final static Logger log = Logger.getLogger(GraphMatcher.class.getName());
 
     /**
      * get a mapping from g1 to g2 or null if the graphs are not isomorphic. The
@@ -100,10 +100,9 @@ public class GraphMatcher {
 
     private static Map<BlankNode, BlankNode> trialAndErrorMatching(Graph g1, Graph g2,
             Map<Set<BlankNode>, Set<BlankNode>> matchingGroups) {
-        if (log.isDebugEnabled()) {
+        if (log.isLoggable(Level.FINE)) {
             Set<BlankNode> bn1  = Utils.getBNodes(g1);
-            log.debug("doing trial and error matching for {} bnodes, " +
-                    "in graphs of size: {}.", bn1.size(), g1.size());
+            log.log(Level.FINE,"doing trial and error matching for {0}"+" bnodes, "+"in graphs of size: {1}.", new Object[]{bn1.size(), g1.size()});
         }
         Iterator<Map<BlankNode, BlankNode>> mappingIter
                 = GroupMappingIterator.create(matchingGroups);

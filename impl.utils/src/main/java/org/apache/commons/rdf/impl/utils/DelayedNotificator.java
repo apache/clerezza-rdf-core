@@ -20,11 +20,12 @@ package org.apache.commons.rdf.impl.utils;
 
 import java.lang.ref.WeakReference;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.apache.commons.rdf.event.GraphEvent;
 import org.apache.commons.rdf.event.GraphListener;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 
 /**
  *
@@ -32,7 +33,7 @@ import org.slf4j.LoggerFactory;
  */
 class DelayedNotificator {
 
-    private static final Logger log = LoggerFactory.getLogger(DelayedNotificator.class);
+    private static final Logger log = Logger.getLogger(DelayedNotificator.class.getName());
     private static Timer timer = new Timer("Event delivery timer",true);
 
     static class ListenerHolder {
@@ -62,12 +63,12 @@ class DelayedNotificator {
                             }
                             GraphListener listener = listenerRef.get();
                             if (listener == null) {
-                                log.debug("Ignoring garbage collected listener");
+                                log.fine("Ignoring garbage collected listener");
                             } else {
                                 try {
                                     listener.graphChanged(eventsLocal);
                                 } catch (Exception e) {
-                                    log.warn("Exception delivering ImmutableGraph event", e);
+                                    log.log(Level.WARNING, "Exception delivering ImmutableGraph event", e);
                                 }
                             }
                         }
