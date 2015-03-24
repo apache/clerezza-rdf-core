@@ -6,13 +6,13 @@
     <parent>
         <groupId>org.apache.clerezza</groupId>
         <artifactId>clerezza</artifactId>
-        <version>7-SNAPSHOT</version>
+        <version>6</version>
         <relativePath />
     </parent>
 
     <groupId>org.apache.clerezza.commons-rdf</groupId>
     <artifactId>commons-rdf-impl-sparql</artifactId>
-    <version>6</version>
+    <version>0.1-SNAPSHOT</version>
     <packaging>bundle</packaging>
     <name>Clerezza Commons RDF SPARQL backed implementation.</name>
     <description>An implementation of the rdf commons API backed by a sparql 
