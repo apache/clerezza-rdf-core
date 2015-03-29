@@ -60,7 +60,7 @@
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
-                        <Export-Package>org.apache.commons.rdf.*</Export-Package>
+                        <Export-Package>org.apache.commons.rdf.impl.utils.*</Export-Package>
                     </instructions>
                 </configuration>
             </plugin>
