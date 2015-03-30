@@ -337,46 +337,51 @@ public class SparqlGraph extends AbstractGraph {
     }
 
     private String createQuery(final BlankNodeOrIri filterSubject, final Iri filterPredicate, final RdfTerm filterObject) {
-        final StringBuilder queryBuilder = new StringBuilder();
-        queryBuilder.append("SELECT ?s ?p ?o WHERE { ");
+        final StringBuilder selectBuilder = new StringBuilder();
+        selectBuilder.append("SELECT ");
+        final StringBuilder whereBuilder = new StringBuilder();
+        whereBuilder.append("WHERE { ");
         if (filterSubject == null) {
-            queryBuilder.append("?s");
+            whereBuilder.append("?s");
+            selectBuilder.append("?s ");
         } else {
             if (filterSubject instanceof SparqlBNode) {
-                queryBuilder.append("?sn");
+                whereBuilder.append("?sn");
             } else {
-                queryBuilder.append(asSparqlTerm(filterSubject));
+                whereBuilder.append(asSparqlTerm(filterSubject));
             }
         }
-        queryBuilder.append(' ');
+        whereBuilder.append(' ');
         if (filterPredicate == null) {
-            queryBuilder.append("?p");
+            whereBuilder.append("?p");
+            selectBuilder.append("?p ");
         } else {
-            queryBuilder.append(asSparqlTerm(filterPredicate));
+            whereBuilder.append(asSparqlTerm(filterPredicate));
         }
-        queryBuilder.append(' ');
+        whereBuilder.append(' ');
         if (filterObject == null) {
-            queryBuilder.append("?o");
+            whereBuilder.append("?o");
+            selectBuilder.append("?o ");
         } else {
             if (filterObject instanceof SparqlBNode) {
-                queryBuilder.append("?on");
+                whereBuilder.append("?on");
             } else {
-                queryBuilder.append(asSparqlTerm(filterObject));
+                whereBuilder.append(asSparqlTerm(filterObject));
             }
         }
-        queryBuilder.append(" .\n");
+        whereBuilder.append(" .\n");
         if (filterSubject instanceof SparqlBNode) {
             //expand bnode context
-            writeTriplePattern(queryBuilder, ((SparqlBNode) filterSubject).context, "sn");
+            writeTriplePattern(whereBuilder, ((SparqlBNode) filterSubject).context, "sn");
         }
         
         if (filterObject instanceof SparqlBNode) {
             //expand bnode context
-            writeTriplePattern(queryBuilder, ((SparqlBNode) filterObject).context, "on");
+            writeTriplePattern(whereBuilder, ((SparqlBNode) filterObject).context, "on");
         }
 
-        queryBuilder.append(" }");
-        return queryBuilder.toString();
+        whereBuilder.append(" }");
+        return selectBuilder.append(whereBuilder).toString();
     }
 
     @Override
