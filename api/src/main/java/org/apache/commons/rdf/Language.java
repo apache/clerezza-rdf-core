@@ -36,7 +36,7 @@ public class Language {
         if ((id == null) || (id.equals(""))) {
             throw new IllegalArgumentException("A language id may not be null or empty");
         }
-        this.id = id;
+        this.id = id.toLowerCase();
     }
 
     @Override
