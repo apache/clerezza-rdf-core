@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.commons.rdf;
+package org.apache.clerezza.commons.rdf;
 
 /**
  * Represents a <code>Resource</code> that is not a <code>Literal</code>. 

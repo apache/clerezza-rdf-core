@@ -16,15 +16,15 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.commons.rdf.impl.utils.simple;
+package org.apache.clerezza.commons.rdf.impl.utils.simple;
 
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.apache.commons.rdf.ImmutableGraph;
-import org.apache.commons.rdf.Graph;
-import org.apache.commons.rdf.Triple;
+import org.apache.clerezza.commons.rdf.ImmutableGraph;
+import org.apache.clerezza.commons.rdf.Graph;
+import org.apache.clerezza.commons.rdf.Triple;
 
 /**
  *

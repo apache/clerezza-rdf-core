@@ -18,4 +18,4 @@
 /**
  * Common RDF API Implementation utilities.
  */
-package org.apache.commons.rdf.impl.utils;
+package org.apache.clerezza.commons.rdf.impl.utils;

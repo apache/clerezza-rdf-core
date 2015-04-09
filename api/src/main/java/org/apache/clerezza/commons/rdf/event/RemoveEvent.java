@@ -16,10 +16,10 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.commons.rdf.event;
+package org.apache.clerezza.commons.rdf.event;
 
-import org.apache.commons.rdf.Triple;
-import org.apache.commons.rdf.Graph;
+import org.apache.clerezza.commons.rdf.Triple;
+import org.apache.clerezza.commons.rdf.Graph;
 
 /**
  * This class represent a removal event that occured on a

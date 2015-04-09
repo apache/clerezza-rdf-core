@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.rdf.impl.sparql;
+package org.apache.clerezza.commons.rdf.impl.sparql;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,11 +31,11 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import javax.xml.parsers.*;
-import org.apache.commons.rdf.BlankNode;
-import org.apache.commons.rdf.Iri;
-import org.apache.commons.rdf.Language;
-import org.apache.commons.rdf.RdfTerm;
-import org.apache.commons.rdf.impl.utils.AbstractLiteral;
+import org.apache.clerezza.commons.rdf.BlankNode;
+import org.apache.clerezza.commons.rdf.Iri;
+import org.apache.clerezza.commons.rdf.Language;
+import org.apache.clerezza.commons.rdf.RdfTerm;
+import org.apache.clerezza.commons.rdf.impl.utils.AbstractLiteral;
 import org.xml.sax.*;
 import org.xml.sax.helpers.*;
 

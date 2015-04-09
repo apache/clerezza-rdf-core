@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package org.apache.commons.rdf.impl.utils.debug;
+package org.apache.clerezza.commons.rdf.impl.utils.debug;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;

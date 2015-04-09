@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.commons.rdf.event;
+package org.apache.clerezza.commons.rdf.event;
 
 import java.util.List;
 

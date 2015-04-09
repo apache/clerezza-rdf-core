@@ -16,13 +16,13 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.commons.rdf.impl.utils;
+package org.apache.clerezza.commons.rdf.impl.utils;
 
 import java.io.Serializable;
 
-import org.apache.commons.rdf.Iri;
-import org.apache.commons.rdf.Language;
-import org.apache.commons.rdf.Literal;
+import org.apache.clerezza.commons.rdf.Iri;
+import org.apache.clerezza.commons.rdf.Language;
+import org.apache.clerezza.commons.rdf.Literal;
 
 /**
  *

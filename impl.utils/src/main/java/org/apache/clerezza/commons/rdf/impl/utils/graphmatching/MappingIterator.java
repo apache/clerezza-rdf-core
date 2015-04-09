@@ -1,4 +1,4 @@
-package org.apache.commons.rdf.impl.utils.graphmatching;
+package org.apache.clerezza.commons.rdf.impl.utils.graphmatching;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one

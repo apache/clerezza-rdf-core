@@ -16,15 +16,15 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.commons.rdf.impl.utils;
+package org.apache.clerezza.commons.rdf.impl.utils;
 
 import java.lang.ref.WeakReference;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.apache.commons.rdf.event.GraphEvent;
-import org.apache.commons.rdf.event.GraphListener;
+import org.apache.clerezza.commons.rdf.event.GraphEvent;
+import org.apache.clerezza.commons.rdf.event.GraphListener;
 
 
 /**

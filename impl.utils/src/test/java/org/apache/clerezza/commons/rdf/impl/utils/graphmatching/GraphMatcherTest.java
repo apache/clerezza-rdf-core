@@ -16,19 +16,19 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.commons.rdf.impl.utils.graphmatching;
+package org.apache.clerezza.commons.rdf.impl.utils.graphmatching;
 
-import org.apache.commons.rdf.impl.utils.graphmatching.GraphMatcher;
+import org.apache.clerezza.commons.rdf.impl.utils.graphmatching.GraphMatcher;
 import java.util.Map;
-import org.apache.commons.rdf.BlankNode;
-import org.apache.commons.rdf.Graph;
-import org.apache.commons.rdf.BlankNodeOrIri;
-import org.apache.commons.rdf.RdfTerm;
-import org.apache.commons.rdf.Triple;
-import org.apache.commons.rdf.Graph;
-import org.apache.commons.rdf.Iri;
-import org.apache.commons.rdf.impl.utils.simple.SimpleMGraph;
-import org.apache.commons.rdf.impl.utils.TripleImpl;
+import org.apache.clerezza.commons.rdf.BlankNode;
+import org.apache.clerezza.commons.rdf.Graph;
+import org.apache.clerezza.commons.rdf.BlankNodeOrIri;
+import org.apache.clerezza.commons.rdf.RdfTerm;
+import org.apache.clerezza.commons.rdf.Triple;
+import org.apache.clerezza.commons.rdf.Graph;
+import org.apache.clerezza.commons.rdf.Iri;
+import org.apache.clerezza.commons.rdf.impl.utils.simple.SimpleMGraph;
+import org.apache.clerezza.commons.rdf.impl.utils.TripleImpl;
 import org.junit.Assert;
 import org.junit.Test;
 

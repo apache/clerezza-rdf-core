@@ -16,12 +16,12 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.commons.rdf.impl.utils;
+package org.apache.clerezza.commons.rdf.impl.utils;
 
 import java.util.Iterator;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
-import org.apache.commons.rdf.Triple;
+import org.apache.clerezza.commons.rdf.Triple;
 
 /**
  * Wrapps an iterator<Triple> reading entering a read-lock on every invocation

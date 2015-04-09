@@ -1,4 +1,4 @@
-package org.apache.commons.rdf.impl.utils.graphmatching;
+package org.apache.clerezza.commons.rdf.impl.utils.graphmatching;
 /*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -26,8 +26,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.apache.commons.rdf.BlankNode;
-import org.apache.commons.rdf.Triple;
+import org.apache.clerezza.commons.rdf.BlankNode;
+import org.apache.clerezza.commons.rdf.Triple;
 
 public class Utils {
 

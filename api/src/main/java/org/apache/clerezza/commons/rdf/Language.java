@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.commons.rdf;
+package org.apache.clerezza.commons.rdf;
 
 /**
  * Represents a language as expressed by the RDF 4646 language tag

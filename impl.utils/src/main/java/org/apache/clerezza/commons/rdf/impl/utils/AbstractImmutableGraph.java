@@ -16,16 +16,16 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.commons.rdf.impl.utils;
+package org.apache.clerezza.commons.rdf.impl.utils;
 
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.apache.commons.rdf.BlankNode;
-import org.apache.commons.rdf.ImmutableGraph;
-import org.apache.commons.rdf.RdfTerm;
-import org.apache.commons.rdf.Triple;
-import org.apache.commons.rdf.impl.utils.graphmatching.GraphMatcher;
+import org.apache.clerezza.commons.rdf.BlankNode;
+import org.apache.clerezza.commons.rdf.ImmutableGraph;
+import org.apache.clerezza.commons.rdf.RdfTerm;
+import org.apache.clerezza.commons.rdf.Triple;
+import org.apache.clerezza.commons.rdf.impl.utils.graphmatching.GraphMatcher;
 
 /**
  * <code>AbstractGraph</code> is an abstract implementation of <code>ImmutableGraph</code> 

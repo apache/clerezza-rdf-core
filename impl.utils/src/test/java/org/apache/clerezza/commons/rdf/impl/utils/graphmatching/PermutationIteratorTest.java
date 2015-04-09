@@ -17,9 +17,9 @@
  * under the License.
  */
 
-package org.apache.commons.rdf.impl.utils.graphmatching;
+package org.apache.clerezza.commons.rdf.impl.utils.graphmatching;
 
-import org.apache.commons.rdf.impl.utils.graphmatching.PermutationIterator;
+import org.apache.clerezza.commons.rdf.impl.utils.graphmatching.PermutationIterator;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;

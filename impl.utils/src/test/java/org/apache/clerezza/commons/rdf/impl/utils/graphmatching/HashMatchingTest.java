@@ -17,14 +17,14 @@
  * under the License.
  */
 
-package org.apache.commons.rdf.impl.utils.graphmatching;
+package org.apache.clerezza.commons.rdf.impl.utils.graphmatching;
 
 
 import java.util.Map;
 
-import org.apache.commons.rdf.BlankNode;
-import org.apache.commons.rdf.Graph;
-import org.apache.commons.rdf.BlankNodeOrIri;
+import org.apache.clerezza.commons.rdf.BlankNode;
+import org.apache.clerezza.commons.rdf.Graph;
+import org.apache.clerezza.commons.rdf.BlankNodeOrIri;
 import org.junit.Assert;
 import org.junit.Test;
 

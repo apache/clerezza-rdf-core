@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.commons.rdf.impl.utils;
+package org.apache.clerezza.commons.rdf.impl.utils;
 
 import java.lang.ref.WeakReference;
 import java.util.AbstractCollection;
@@ -29,20 +29,20 @@ import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
-import org.apache.commons.rdf.BlankNodeOrIri;
-import org.apache.commons.rdf.RdfTerm;
-import org.apache.commons.rdf.Triple;
-import org.apache.commons.rdf.Graph;
-import org.apache.commons.rdf.ImmutableGraph;
-import org.apache.commons.rdf.Iri;
-import org.apache.commons.rdf.WatchableGraph;
-import org.apache.commons.rdf.event.AddEvent;
-import org.apache.commons.rdf.event.FilterTriple;
-import org.apache.commons.rdf.event.GraphEvent;
-import org.apache.commons.rdf.event.GraphListener;
-import org.apache.commons.rdf.event.RemoveEvent;
-import org.apache.commons.rdf.impl.utils.debug.ReentrantReadWriteLockTracker;
-import org.apache.commons.rdf.impl.utils.simple.SimpleImmutableGraph;
+import org.apache.clerezza.commons.rdf.BlankNodeOrIri;
+import org.apache.clerezza.commons.rdf.RdfTerm;
+import org.apache.clerezza.commons.rdf.Triple;
+import org.apache.clerezza.commons.rdf.Graph;
+import org.apache.clerezza.commons.rdf.ImmutableGraph;
+import org.apache.clerezza.commons.rdf.Iri;
+import org.apache.clerezza.commons.rdf.WatchableGraph;
+import org.apache.clerezza.commons.rdf.event.AddEvent;
+import org.apache.clerezza.commons.rdf.event.FilterTriple;
+import org.apache.clerezza.commons.rdf.event.GraphEvent;
+import org.apache.clerezza.commons.rdf.event.GraphListener;
+import org.apache.clerezza.commons.rdf.event.RemoveEvent;
+import org.apache.clerezza.commons.rdf.impl.utils.debug.ReentrantReadWriteLockTracker;
+import org.apache.clerezza.commons.rdf.impl.utils.simple.SimpleImmutableGraph;
 
 /**
  * An abstract implementation of <code>Graph</code> implementing

@@ -16,9 +16,9 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.commons.rdf.impl.utils.simple;
+package org.apache.clerezza.commons.rdf.impl.utils.simple;
 
-import org.apache.commons.rdf.impl.utils.AbstractGraph;
+import org.apache.clerezza.commons.rdf.impl.utils.AbstractGraph;
 import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,11 +29,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.rdf.BlankNodeOrIri;
-import org.apache.commons.rdf.ImmutableGraph;
-import org.apache.commons.rdf.RdfTerm;
-import org.apache.commons.rdf.Triple;
-import org.apache.commons.rdf.Iri;
+import org.apache.clerezza.commons.rdf.BlankNodeOrIri;
+import org.apache.clerezza.commons.rdf.ImmutableGraph;
+import org.apache.clerezza.commons.rdf.RdfTerm;
+import org.apache.clerezza.commons.rdf.Triple;
+import org.apache.clerezza.commons.rdf.Iri;
 
 /**
  * For now this is a minimalistic implementation, without any indexes or other

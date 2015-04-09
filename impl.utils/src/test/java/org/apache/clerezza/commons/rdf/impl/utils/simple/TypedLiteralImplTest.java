@@ -16,14 +16,14 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.commons.rdf.impl.utils.simple;
+package org.apache.clerezza.commons.rdf.impl.utils.simple;
 
-import org.apache.commons.rdf.impl.utils.TypedLiteralImpl;
+import org.apache.clerezza.commons.rdf.impl.utils.TypedLiteralImpl;
 import org.junit.Test;
 import junit.framework.Assert;
 
-import org.apache.commons.rdf.Iri;
-import org.apache.commons.rdf.Literal;
+import org.apache.clerezza.commons.rdf.Iri;
+import org.apache.clerezza.commons.rdf.Literal;
 /**
  *
  * @author reto/**

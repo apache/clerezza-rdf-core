@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.commons.rdf.impl.utils.debug;
+package org.apache.clerezza.commons.rdf.impl.utils.debug;
 
 import java.util.Collection;
 import java.util.Collections;

@@ -16,16 +16,16 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.commons.rdf.impl.utils.simple;
+package org.apache.clerezza.commons.rdf.impl.utils.simple;
 
-import org.apache.commons.rdf.impl.utils.TripleImpl;
+import org.apache.clerezza.commons.rdf.impl.utils.TripleImpl;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import org.junit.Assert;
 import org.junit.Test;
-import org.apache.commons.rdf.Triple;
-import org.apache.commons.rdf.Iri;
-import org.apache.commons.rdf.impl.utils.simple.SimpleGraph;
+import org.apache.clerezza.commons.rdf.Triple;
+import org.apache.clerezza.commons.rdf.Iri;
+import org.apache.clerezza.commons.rdf.impl.utils.simple.SimpleGraph;
 
 /**
  *

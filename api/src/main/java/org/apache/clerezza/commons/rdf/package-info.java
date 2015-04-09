@@ -18,4 +18,4 @@
 /**
  * Common RDF API
  */
-package org.apache.commons.rdf;
+package org.apache.clerezza.commons.rdf;

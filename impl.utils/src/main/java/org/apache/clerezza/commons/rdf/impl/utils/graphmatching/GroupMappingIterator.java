@@ -15,7 +15,7 @@
  *  under the License.
  */
 
-package org.apache.commons.rdf.impl.utils.graphmatching;
+package org.apache.clerezza.commons.rdf.impl.utils.graphmatching;
 
 import java.util.ArrayList;
 import java.util.HashMap;

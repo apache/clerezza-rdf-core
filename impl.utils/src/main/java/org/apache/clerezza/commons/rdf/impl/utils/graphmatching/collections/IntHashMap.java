@@ -19,7 +19,7 @@
  * but rereleased by the original author under the ASF license (above).
  */
 
-package org.apache.commons.rdf.impl.utils.graphmatching.collections;
+package org.apache.clerezza.commons.rdf.impl.utils.graphmatching.collections;
 
 
 

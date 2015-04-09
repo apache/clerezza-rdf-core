@@ -16,13 +16,13 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.commons.rdf;
+package org.apache.clerezza.commons.rdf;
 
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.concurrent.locks.ReadWriteLock;
-import org.apache.commons.rdf.event.FilterTriple;
-import org.apache.commons.rdf.event.GraphListener;
+import org.apache.clerezza.commons.rdf.event.FilterTriple;
+import org.apache.clerezza.commons.rdf.event.GraphListener;
 
 
 /**

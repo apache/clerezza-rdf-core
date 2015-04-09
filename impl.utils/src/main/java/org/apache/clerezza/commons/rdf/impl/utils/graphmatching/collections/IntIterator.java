@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.rdf.impl.utils.graphmatching.collections;
+package org.apache.clerezza.commons.rdf.impl.utils.graphmatching.collections;
 
 import java.util.Iterator;
 
