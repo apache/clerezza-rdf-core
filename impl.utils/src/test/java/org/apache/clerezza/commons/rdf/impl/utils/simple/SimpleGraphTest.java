@@ -24,7 +24,7 @@ import java.util.Iterator;
 import org.junit.Assert;
 import org.junit.Test;
 import org.apache.clerezza.commons.rdf.Triple;
-import org.apache.clerezza.commons.rdf.Iri;
+import org.apache.clerezza.commons.rdf.IRI;
 import org.apache.clerezza.commons.rdf.impl.utils.simple.SimpleGraph;
 
 /**
@@ -33,9 +33,9 @@ import org.apache.clerezza.commons.rdf.impl.utils.simple.SimpleGraph;
  */
 public class SimpleGraphTest {
 
-    private Iri uriRef1 = new Iri("http://example.org/foo");
-    private Iri uriRef2 = new Iri("http://example.org/bar");
-    private Iri uriRef3 = new Iri("http://example.org/test");
+    private IRI uriRef1 = new IRI("http://example.org/foo");
+    private IRI uriRef2 = new IRI("http://example.org/bar");
+    private IRI uriRef3 = new IRI("http://example.org/test");
     private Triple triple1 = new TripleImpl(uriRef1, uriRef2, uriRef3);
     private Triple triple2 = new TripleImpl(uriRef2, uriRef2, uriRef1);
     private Triple triple3 = new TripleImpl(uriRef3, uriRef1, uriRef3);

@@ -26,11 +26,11 @@ package org.apache.clerezza.commons.rdf;
  */
 public interface Triple {
 
-    BlankNodeOrIri getSubject();
+    BlankNodeOrIRI getSubject();
 
-    Iri getPredicate();
+    IRI getPredicate();
 
-    RdfTerm getObject();
+    RDFTerm getObject();
 
     /**
      * 

@@ -18,10 +18,10 @@
  */
 package org.apache.clerezza.commons.rdf.impl.utils;
 
-import org.apache.clerezza.commons.rdf.BlankNodeOrIri;
-import org.apache.clerezza.commons.rdf.RdfTerm;
+import org.apache.clerezza.commons.rdf.BlankNodeOrIRI;
+import org.apache.clerezza.commons.rdf.RDFTerm;
 import org.apache.clerezza.commons.rdf.Triple;
-import org.apache.clerezza.commons.rdf.Iri;
+import org.apache.clerezza.commons.rdf.IRI;
 
 /**
  *
@@ -29,9 +29,9 @@ import org.apache.clerezza.commons.rdf.Iri;
  */
 public class TripleImpl implements Triple {
 
-    private final BlankNodeOrIri subject;
-    private final Iri predicate;
-    private final RdfTerm object;
+    private final BlankNodeOrIRI subject;
+    private final IRI predicate;
+    private final RDFTerm object;
 
     /**
      * Creates a new <code>TripleImpl</code>.
@@ -41,7 +41,7 @@ public class TripleImpl implements Triple {
      * @param object  the object.
      * @throws IllegalArgumentException  if an attribute is <code>null</code>.
      */
-    public TripleImpl(BlankNodeOrIri subject, Iri predicate, RdfTerm object) {
+    public TripleImpl(BlankNodeOrIRI subject, IRI predicate, RDFTerm object) {
         if (subject == null) {
             throw new IllegalArgumentException("Invalid subject: null");
         } else if (predicate == null) {
@@ -81,15 +81,15 @@ public class TripleImpl implements Triple {
     }
 
     @Override
-    public BlankNodeOrIri getSubject() {
+    public BlankNodeOrIRI getSubject() {
         return subject;
     }
 
-    public Iri getPredicate() {
+    public IRI getPredicate() {
         return predicate;
     }
 
-    public RdfTerm getObject() {
+    public RDFTerm getObject() {
         return object;
     }
 

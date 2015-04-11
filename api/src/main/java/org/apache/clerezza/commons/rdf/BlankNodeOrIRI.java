@@ -19,14 +19,12 @@
 package org.apache.clerezza.commons.rdf;
 
 /**
- * An <a href= "http://www.w3.org/TR/rdf11-concepts/#dfn-rdf-term" >RDF-1.1
- * Term</a>, as defined by <a href= "http://www.w3.org/TR/rdf11-concepts/"
- * >RDF-1.1 Concepts and Abstract Syntax</a>, a W3C Recommendation published on
- * 25 February 2014.<br>
+ * Represents a <code>Resource</code> that is not a <code>Literal</code>. 
+ * This is a marker interface implemented by <code>UriRef</code> 
+ * and <code>BNode</code>.
  *
- * @see <a href= "http://www.w3.org/TR/rdf11-concepts/#dfn-rdf-term" >RDF-1.1
- * Term</a>
+ * @author reto
  */
-public interface RdfTerm {
+public interface BlankNodeOrIRI extends RDFTerm {
 
 }

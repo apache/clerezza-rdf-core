@@ -18,10 +18,10 @@ package org.apache.clerezza.commons.rdf.impl.sparql;
 import java.util.Collection;
 import java.util.Objects;
 import org.apache.clerezza.commons.rdf.BlankNode;
-import org.apache.clerezza.commons.rdf.BlankNodeOrIri;
+import org.apache.clerezza.commons.rdf.BlankNodeOrIRI;
 import org.apache.clerezza.commons.rdf.ImmutableGraph;
-import org.apache.clerezza.commons.rdf.Iri;
-import org.apache.clerezza.commons.rdf.RdfTerm;
+import org.apache.clerezza.commons.rdf.IRI;
+import org.apache.clerezza.commons.rdf.RDFTerm;
 import org.apache.clerezza.commons.rdf.Triple;
 import org.apache.clerezza.commons.rdf.impl.utils.TripleImpl;
 import org.apache.clerezza.commons.rdf.impl.utils.simple.SimpleGraph;
@@ -32,7 +32,7 @@ import org.apache.clerezza.commons.rdf.impl.utils.simple.SimpleGraph;
  */
 class SparqlBNode extends BlankNode {
     
-    final static Iri internalBNodeId = new Iri("urn:x-internalid:fdmpoihdfw");
+    final static IRI internalBNodeId = new IRI("urn:x-internalid:fdmpoihdfw");
     
     final ImmutableGraph context;
     private final int isoDistinguisher;
@@ -41,8 +41,8 @@ class SparqlBNode extends BlankNode {
         this.isoDistinguisher = isoDistinguisher;
         final SimpleGraph contextBuider = new SimpleGraph();
         for (Triple triple : context) {
-            BlankNodeOrIri subject = triple.getSubject();
-            RdfTerm object = triple.getObject();
+            BlankNodeOrIRI subject = triple.getSubject();
+            RDFTerm object = triple.getObject();
             contextBuider.add(new TripleImpl(subject.equals(node) ? internalBNodeId : subject, 
                     triple.getPredicate(), 
                     object.equals(node) ? internalBNodeId : object));

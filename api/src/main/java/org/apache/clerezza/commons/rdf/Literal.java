@@ -28,7 +28,7 @@ package org.apache.clerezza.commons.rdf;
  *
  * @author reto
  */
-public interface Literal extends RdfTerm {
+public interface Literal extends RDFTerm {
     
     /**
      * The lexical form of this literal, represented by a <a
@@ -50,7 +50,7 @@ public interface Literal extends RdfTerm {
      * href="http://www.w3.org/TR/rdf11-concepts/#dfn-datatype-iri">RDF-1.1
      * Literal datatype IRI</a>
      */
-    Iri getDataType();
+    IRI getDataType();
     
     /**
      * If and only if the datatype IRI is <a

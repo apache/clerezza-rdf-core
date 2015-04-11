@@ -25,10 +25,10 @@ import com.hp.hpl.jena.rdf.model.ModelFactory;
 import java.io.InputStream;
 import java.util.Iterator;
 import org.apache.clerezza.commons.rdf.BlankNode;
-import org.apache.clerezza.commons.rdf.BlankNodeOrIri;
+import org.apache.clerezza.commons.rdf.BlankNodeOrIRI;
 import org.apache.clerezza.commons.rdf.Graph;
-import org.apache.clerezza.commons.rdf.Iri;
-import org.apache.clerezza.commons.rdf.RdfTerm;
+import org.apache.clerezza.commons.rdf.IRI;
+import org.apache.clerezza.commons.rdf.RDFTerm;
 import org.apache.clerezza.commons.rdf.Triple;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -84,25 +84,25 @@ public class BNodeTest {
     public void bNodeIdentity() {
         final Graph graph = new SparqlGraph("http://localhost:" + serverPort + "/ds/query");
         
-        final Iri foafPerson = new Iri("http://xmlns.com/foaf/0.1/Person");
-        final Iri foafName = new Iri("http://xmlns.com/foaf/0.1/name");
-        final Iri foafKnows = new Iri("http://xmlns.com/foaf/0.1/knows");
-        final Iri rdfType = new Iri("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
+        final IRI foafPerson = new IRI("http://xmlns.com/foaf/0.1/Person");
+        final IRI foafName = new IRI("http://xmlns.com/foaf/0.1/name");
+        final IRI foafKnows = new IRI("http://xmlns.com/foaf/0.1/knows");
+        final IRI rdfType = new IRI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
 
         final Iterator<Triple> iter = graph.filter(null, foafName, null);
         Assert.assertTrue(iter.hasNext());
-        final BlankNodeOrIri namedThing = iter.next().getSubject();
+        final BlankNodeOrIRI namedThing = iter.next().getSubject();
         Assert.assertTrue(namedThing instanceof BlankNode);
         
         final Iterator<Triple> iter2 = graph.filter(null, rdfType, foafPerson);
         Assert.assertTrue(iter2.hasNext());
-        final BlankNodeOrIri person = iter2.next().getSubject();
+        final BlankNodeOrIRI person = iter2.next().getSubject();
         Assert.assertTrue(person instanceof BlankNode);
         Assert.assertEquals(namedThing, person);
         
         final Iterator<Triple> iter3 = graph.filter(null, foafKnows, null);
         Assert.assertTrue(iter3.hasNext());
-        final RdfTerm knownThing = iter3.next().getObject();
+        final RDFTerm knownThing = iter3.next().getObject();
         Assert.assertTrue(knownThing instanceof BlankNode);
         Assert.assertEquals(knownThing, person);
         Assert.assertEquals(namedThing, knownThing);
@@ -112,13 +112,13 @@ public class BNodeTest {
     public void filter1() {
         final Graph graph = new SparqlGraph("http://localhost:" + serverPort + "/ds/query");
         
-        final Iri foafPerson = new Iri("http://xmlns.com/foaf/0.1/Person");
-        final Iri foafName = new Iri("http://xmlns.com/foaf/0.1/name");
-        final Iri rdfType = new Iri("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
+        final IRI foafPerson = new IRI("http://xmlns.com/foaf/0.1/Person");
+        final IRI foafName = new IRI("http://xmlns.com/foaf/0.1/name");
+        final IRI rdfType = new IRI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
 
         final Iterator<Triple> iter = graph.filter(null, foafName, null);
         Assert.assertTrue(iter.hasNext());
-        final BlankNodeOrIri person = iter.next().getSubject();
+        final BlankNodeOrIRI person = iter.next().getSubject();
         Assert.assertTrue(person instanceof BlankNode);
         
         final Iterator<Triple> iter2 = graph.filter(person, rdfType, null);

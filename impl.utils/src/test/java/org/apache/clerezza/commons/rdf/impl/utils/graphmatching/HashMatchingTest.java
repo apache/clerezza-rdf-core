@@ -24,7 +24,7 @@ import java.util.Map;
 
 import org.apache.clerezza.commons.rdf.BlankNode;
 import org.apache.clerezza.commons.rdf.Graph;
-import org.apache.clerezza.commons.rdf.BlankNodeOrIri;
+import org.apache.clerezza.commons.rdf.BlankNodeOrIRI;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -36,10 +36,10 @@ public class HashMatchingTest {
 
     @Test
     public void twoLine() throws GraphNotIsomorphicException {
-        BlankNodeOrIri start1 = new BlankNode();
+        BlankNodeOrIRI start1 = new BlankNode();
         Graph tc1 = Utils4Testing.generateLine(4,start1);
         tc1.addAll(Utils4Testing.generateLine(5,start1));
-        BlankNodeOrIri start2 = new BlankNode();
+        BlankNodeOrIRI start2 = new BlankNode();
         Graph tc2 = Utils4Testing.generateLine(5,start2);
         tc2.addAll(Utils4Testing.generateLine(4,start2));
         Assert.assertEquals(9, tc1.size());

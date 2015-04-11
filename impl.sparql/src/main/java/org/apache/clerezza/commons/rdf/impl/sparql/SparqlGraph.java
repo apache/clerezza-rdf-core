@@ -28,12 +28,12 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.logging.Logger;
 import org.apache.clerezza.commons.rdf.BlankNode;
-import org.apache.clerezza.commons.rdf.BlankNodeOrIri;
+import org.apache.clerezza.commons.rdf.BlankNodeOrIRI;
 import org.apache.clerezza.commons.rdf.Graph;
 import org.apache.clerezza.commons.rdf.ImmutableGraph;
-import org.apache.clerezza.commons.rdf.Iri;
+import org.apache.clerezza.commons.rdf.IRI;
 import org.apache.clerezza.commons.rdf.Literal;
-import org.apache.clerezza.commons.rdf.RdfTerm;
+import org.apache.clerezza.commons.rdf.RDFTerm;
 import org.apache.clerezza.commons.rdf.Triple;
 import org.apache.clerezza.commons.rdf.impl.utils.AbstractGraph;
 import org.apache.clerezza.commons.rdf.impl.utils.TripleImpl;
@@ -59,17 +59,17 @@ public class SparqlGraph extends AbstractGraph {
     }
 
     @Override
-    protected Iterator<Triple> performFilter(final BlankNodeOrIri filterSubject,
-            final Iri filterPredicate, final RdfTerm filterObject) {
+    protected Iterator<Triple> performFilter(final BlankNodeOrIRI filterSubject,
+            final IRI filterPredicate, final RDFTerm filterObject) {
         try {
             String query = createQuery(filterSubject, filterPredicate, filterObject);
-            final List<Map<String, RdfTerm>> sparqlResults = sparqlClient.queryResultSet(query);
+            final List<Map<String, RDFTerm>> sparqlResults = sparqlClient.queryResultSet(query);
             //first to triples without bnode-conversion
             //rawTriples contains the triples with the BNodes from the result set
             final Collection<Triple> rawTriples = new ArrayList<>();
-            for (Map<String, RdfTerm> result : sparqlResults) {
-                rawTriples.add(new TripleImpl(filterSubject != null ? filterSubject : (BlankNodeOrIri) result.get("s"),
-                        filterPredicate != null ? filterPredicate : (Iri) result.get("p"),
+            for (Map<String, RDFTerm> result : sparqlResults) {
+                rawTriples.add(new TripleImpl(filterSubject != null ? filterSubject : (BlankNodeOrIRI) result.get("s"),
+                        filterPredicate != null ? filterPredicate : (IRI) result.get("p"),
                         filterObject != null ? filterObject : result.get("o")));
 
             }
@@ -81,14 +81,14 @@ public class SparqlGraph extends AbstractGraph {
                 final Map<BlankNode, SparqlBNode> nodeMap = new HashMap<>();
                 final Set<ImmutableGraph> usedContext = new HashSet<>();
 
-                private RdfTerm useSparqlNode(RdfTerm node) throws IOException {
-                    if (node instanceof BlankNodeOrIri) {
-                        return useSparqlNode((BlankNodeOrIri) node);
+                private RDFTerm useSparqlNode(RDFTerm node) throws IOException {
+                    if (node instanceof BlankNodeOrIRI) {
+                        return useSparqlNode((BlankNodeOrIRI) node);
                     }
                     return node;
                 }
 
-                private BlankNodeOrIri useSparqlNode(BlankNodeOrIri node) throws IOException {
+                private BlankNodeOrIRI useSparqlNode(BlankNodeOrIRI node) throws IOException {
                     if (node instanceof BlankNode) {
                         if (!nodeMap.containsKey(node)) {
                             createBlankNodesForcontext((BlankNode) node);
@@ -107,13 +107,13 @@ public class SparqlGraph extends AbstractGraph {
                     final Set<BlankNode> rawNodes = new HashSet<>();
                     for (Triple triple : context) {
                         {
-                            final BlankNodeOrIri subject = triple.getSubject();
+                            final BlankNodeOrIRI subject = triple.getSubject();
                             if (subject instanceof BlankNode) {
                                 rawNodes.add((BlankNode) subject);
                             }
                         }
                         {
-                            final RdfTerm object = triple.getObject();
+                            final RDFTerm object = triple.getObject();
                             if (object instanceof BlankNode) {
                                 rawNodes.add((BlankNode) object);
                             }
@@ -171,8 +171,8 @@ public class SparqlGraph extends AbstractGraph {
                 private ImmutableGraph getContextInRaw(BlankNode node) {
                     final Graph contextBuilder = new SimpleGraph();
                     for (Triple rawTriple : rawTriples) {
-                        BlankNodeOrIri rawSubject = rawTriple.getSubject();
-                        RdfTerm rawObject = rawTriple.getObject();
+                        BlankNodeOrIRI rawSubject = rawTriple.getSubject();
+                        RDFTerm rawObject = rawTriple.getObject();
                         if (rawSubject.equals(node) || rawObject.equals(node)) {
                             contextBuilder.add(rawTriple);
                         }
@@ -239,18 +239,18 @@ public class SparqlGraph extends AbstractGraph {
                         queryBuilder.append(" } .\n");
                     }
                     queryBuilder.append(" }");
-                    final List<Map<String, RdfTerm>> expansionQueryResults = sparqlClient.queryResultSet(queryBuilder.toString());
+                    final List<Map<String, RDFTerm>> expansionQueryResults = sparqlClient.queryResultSet(queryBuilder.toString());
                     Set<ImmutableGraph> expandedContexts = new HashSet<>();
                     //the query results may or may be from disjoint supergraphs
                     //we expand them all as if they are different which may lead
                     //us to the same MSG multiple times
                     RESULTS:
-                    for (Map<String, RdfTerm> expansionQueryResult : expansionQueryResults) {
+                    for (Map<String, RDFTerm> expansionQueryResult : expansionQueryResults) {
                         Collection<Triple> expandedContext = new HashSet<>();
                         Map<BlankNode, BlankNode> newBNodesToOldBNodes = new HashMap<>();
                         for (BlankNode oldBNode : bNodesInContext) {
                             final String bNodeVarLabel = bNodeVarNameMap.get(oldBNode);
-                            final RdfTerm newNode = expansionQueryResult.get(bNodeVarLabel);
+                            final RDFTerm newNode = expansionQueryResult.get(bNodeVarLabel);
                             if (!(newNode instanceof BlankNode)) {
                                 //this subgraph is't a match
                                 continue RESULTS;
@@ -263,9 +263,9 @@ public class SparqlGraph extends AbstractGraph {
                         for (BlankNode oldBNode : bNodesInContext) {
                             final String bNodeVarLabel = bNodeVarNameMap.get(oldBNode);
                             {
-                                final Iri newPredicate = (Iri) expansionQueryResult.get("po" + bNodeVarLabel);
+                                final IRI newPredicate = (IRI) expansionQueryResult.get("po" + bNodeVarLabel);
                                 if (newPredicate != null) {
-                                    RdfTerm newObject = expansionQueryResult.get("o" + bNodeVarLabel);
+                                    RDFTerm newObject = expansionQueryResult.get("o" + bNodeVarLabel);
                                     if (newObject instanceof BlankNode) {
                                         if (newBNodesToOldBNodes.containsKey(newObject)) {
                                             //point back to BNode in startContext
@@ -280,9 +280,9 @@ public class SparqlGraph extends AbstractGraph {
                                 }
                             }
                             {
-                                final Iri newPredicate = (Iri) expansionQueryResult.get("pi" + bNodeVarLabel);
+                                final IRI newPredicate = (IRI) expansionQueryResult.get("pi" + bNodeVarLabel);
                                 if (newPredicate != null) {
-                                    RdfTerm newSubject = expansionQueryResult.get("s" + bNodeVarLabel);
+                                    RDFTerm newSubject = expansionQueryResult.get("s" + bNodeVarLabel);
                                     if (newSubject instanceof BlankNode) {
                                         if (newBNodesToOldBNodes.containsKey(newSubject)) {
                                             //point back to BNode in startContext
@@ -291,7 +291,7 @@ public class SparqlGraph extends AbstractGraph {
                                             newBNodeIntroduced = true;
                                         }
                                     }
-                                    if (expandedContext.add(new TripleImpl((BlankNodeOrIri) newSubject, newPredicate, oldBNode))) {
+                                    if (expandedContext.add(new TripleImpl((BlankNodeOrIRI) newSubject, newPredicate, oldBNode))) {
                                         newTripleAdded = true;
                                     }
                                 }
@@ -336,7 +336,7 @@ public class SparqlGraph extends AbstractGraph {
         }
     }
 
-    private String createQuery(final BlankNodeOrIri filterSubject, final Iri filterPredicate, final RdfTerm filterObject) {
+    private String createQuery(final BlankNodeOrIRI filterSubject, final IRI filterPredicate, final RDFTerm filterObject) {
         final StringBuilder selectBuilder = new StringBuilder();
         selectBuilder.append("SELECT ");
         final StringBuilder whereBuilder = new StringBuilder();
@@ -393,7 +393,7 @@ public class SparqlGraph extends AbstractGraph {
         }
     }
 
-    private String asSparqlTerm(Iri iri) {
+    private String asSparqlTerm(IRI iri) {
         return "<" + iri.getUnicodeString() + ">";
     }
 
@@ -410,17 +410,17 @@ public class SparqlGraph extends AbstractGraph {
         throw new RuntimeException("SparqlBNodes should have been handled earlier");
     }
 
-    private String asSparqlTerm(BlankNodeOrIri term) {
-        if (term instanceof Iri) {
-            return asSparqlTerm((Iri) term);
+    private String asSparqlTerm(BlankNodeOrIRI term) {
+        if (term instanceof IRI) {
+            return asSparqlTerm((IRI) term);
         } else {
             return asSparqlTerm((BlankNode) term);
         }
     }
 
-    private String asSparqlTerm(RdfTerm term) {
-        if (term instanceof BlankNodeOrIri) {
-            return asSparqlTerm((BlankNodeOrIri) term);
+    private String asSparqlTerm(RDFTerm term) {
+        if (term instanceof BlankNodeOrIRI) {
+            return asSparqlTerm((BlankNodeOrIRI) term);
         } else {
             return asSparqlTerm((Literal) term);
         }
@@ -438,7 +438,7 @@ public class SparqlGraph extends AbstractGraph {
         for (Triple t : triples) {
             final StringBuilder builder = new StringBuilder();
             {
-                final BlankNodeOrIri s = t.getSubject();
+                final BlankNodeOrIRI s = t.getSubject();
                 String varName;
                 if (s instanceof BlankNode) {
                     if (bNodeVarNameMap.containsKey(s)) {
@@ -463,7 +463,7 @@ public class SparqlGraph extends AbstractGraph {
             builder.append(asSparqlTerm(t.getPredicate()));
             builder.append(' ');
             {
-                final RdfTerm o = t.getObject();
+                final RDFTerm o = t.getObject();
                 String varName;
                 if (o instanceof BlankNode) {
                     if (bNodeVarNameMap.containsKey(o)) {

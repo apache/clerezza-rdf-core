@@ -27,9 +27,9 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.clerezza.commons.rdf.BlankNode;
-import org.apache.clerezza.commons.rdf.BlankNodeOrIri;
+import org.apache.clerezza.commons.rdf.BlankNodeOrIRI;
 import org.apache.clerezza.commons.rdf.Graph;
-import org.apache.clerezza.commons.rdf.RdfTerm;
+import org.apache.clerezza.commons.rdf.RDFTerm;
 import org.apache.clerezza.commons.rdf.Triple;
 import org.apache.clerezza.commons.rdf.impl.utils.TripleImpl;
 import org.apache.clerezza.commons.rdf.impl.utils.simple.SimpleMGraph;
@@ -125,13 +125,13 @@ public class GraphMatcher {
     }
 
     private static Triple map(Triple triple, Map<BlankNode, BlankNode> map) {
-        final BlankNodeOrIri oSubject = triple.getSubject();
+        final BlankNodeOrIRI oSubject = triple.getSubject();
 
-        BlankNodeOrIri subject = oSubject instanceof BlankNode ?
+        BlankNodeOrIRI subject = oSubject instanceof BlankNode ?
             map.get((BlankNode)oSubject) : oSubject;
 
-        RdfTerm oObject = triple.getObject();
-        RdfTerm object = oObject instanceof BlankNode ?
+        RDFTerm oObject = triple.getObject();
+        RDFTerm object = oObject instanceof BlankNode ?
             map.get((BlankNode)oObject) : oObject;
         return new TripleImpl(subject, triple.getPredicate(), object);
     }

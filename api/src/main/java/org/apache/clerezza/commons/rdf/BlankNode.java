@@ -36,6 +36,6 @@ package org.apache.clerezza.commons.rdf;
  * @see <a href= "http://www.w3.org/TR/rdf11-concepts/#dfn-blank-node">RDF-1.1
  * Blank Node</a>
  */
-public class BlankNode implements BlankNodeOrIri {
+public class BlankNode implements BlankNodeOrIRI {
 
 }

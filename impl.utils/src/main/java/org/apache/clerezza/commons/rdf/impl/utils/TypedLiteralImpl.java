@@ -20,7 +20,7 @@ package org.apache.clerezza.commons.rdf.impl.utils;
 
 import java.io.Serializable;
 
-import org.apache.clerezza.commons.rdf.Iri;
+import org.apache.clerezza.commons.rdf.IRI;
 import org.apache.clerezza.commons.rdf.Language;
 import org.apache.clerezza.commons.rdf.Literal;
 
@@ -30,20 +30,20 @@ import org.apache.clerezza.commons.rdf.Literal;
  */
 public class TypedLiteralImpl extends AbstractLiteral implements  Serializable {
     private String lexicalForm;
-    private Iri dataType;
+    private IRI dataType;
     private int hashCode;
 
     /**
      * @param lexicalForm 
      * @param dataType 
      */
-    public TypedLiteralImpl(String lexicalForm, Iri dataType) {
+    public TypedLiteralImpl(String lexicalForm, IRI dataType) {
         this.lexicalForm = lexicalForm;
         this.dataType = dataType;
         this.hashCode = super.hashCode();
     }
     
-    public Iri getDataType() {
+    public IRI getDataType() {
         return dataType;
     }
 

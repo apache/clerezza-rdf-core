@@ -21,11 +21,11 @@ package org.apache.clerezza.commons.rdf.impl.utils.simple;
 import org.apache.clerezza.commons.rdf.impl.utils.AbstractImmutableGraph;
 import java.util.Iterator;
 
-import org.apache.clerezza.commons.rdf.BlankNodeOrIri;
-import org.apache.clerezza.commons.rdf.RdfTerm;
+import org.apache.clerezza.commons.rdf.BlankNodeOrIRI;
+import org.apache.clerezza.commons.rdf.RDFTerm;
 import org.apache.clerezza.commons.rdf.Triple;
 import org.apache.clerezza.commons.rdf.Graph;
-import org.apache.clerezza.commons.rdf.Iri;
+import org.apache.clerezza.commons.rdf.IRI;
 
 /**
  *
@@ -73,7 +73,7 @@ public class SimpleImmutableGraph extends AbstractImmutableGraph {
     }
 
     @Override
-    public Iterator<Triple> performFilter(BlankNodeOrIri subject, Iri predicate, RdfTerm object) {
+    public Iterator<Triple> performFilter(BlankNodeOrIRI subject, IRI predicate, RDFTerm object) {
         return graph.filter(subject, predicate, object);
     }
 }

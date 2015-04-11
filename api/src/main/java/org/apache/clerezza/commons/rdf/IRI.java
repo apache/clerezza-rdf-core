@@ -31,11 +31,11 @@ import java.io.Serializable;
  * 
  * @author reto
  */
-public class Iri implements BlankNodeOrIri, Serializable {
+public class IRI implements BlankNodeOrIRI, Serializable {
 
     private String unicodeString;
 
-    public Iri(String unicodeString) {
+    public IRI(String unicodeString) {
         this.unicodeString = unicodeString;
     }
 
@@ -56,11 +56,11 @@ public class Iri implements BlankNodeOrIri, Serializable {
     @Override
     public boolean equals(Object obj) {
 
-        if (!(obj instanceof Iri)) {
+        if (!(obj instanceof IRI)) {
             return false;
         }
 
-        return unicodeString.equals(((Iri) obj).getUnicodeString());
+        return unicodeString.equals(((IRI) obj).getUnicodeString());
     }
 
     /**

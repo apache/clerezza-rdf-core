@@ -21,8 +21,8 @@ package org.apache.clerezza.commons.rdf.impl.utils.graphmatching;
 
 import org.apache.clerezza.commons.rdf.BlankNode;
 import org.apache.clerezza.commons.rdf.Graph;
-import org.apache.clerezza.commons.rdf.BlankNodeOrIri;
-import org.apache.clerezza.commons.rdf.Iri;
+import org.apache.clerezza.commons.rdf.BlankNodeOrIRI;
+import org.apache.clerezza.commons.rdf.IRI;
 import org.apache.clerezza.commons.rdf.impl.utils.simple.SimpleMGraph;
 import org.apache.clerezza.commons.rdf.impl.utils.TripleImpl;
 
@@ -32,12 +32,12 @@ import org.apache.clerezza.commons.rdf.impl.utils.TripleImpl;
  */
 public class Utils4Testing {
 
-    static Graph generateLine(int size, final BlankNodeOrIri firstNode) {
+    static Graph generateLine(int size, final BlankNodeOrIRI firstNode) {
         if (size < 1) {
             throw new IllegalArgumentException();
         }
         Graph result = new SimpleMGraph();
-        BlankNodeOrIri lastNode = firstNode;
+        BlankNodeOrIRI lastNode = firstNode;
         for (int i = 0; i < size; i++) {
             final BlankNode newNode = new BlankNode();
             result.add(new TripleImpl(lastNode, u1, newNode));
@@ -46,6 +46,6 @@ public class Utils4Testing {
         return result;
     }
 
-    final static Iri u1 = new Iri("http://example.org/u1");
+    final static IRI u1 = new IRI("http://example.org/u1");
 
 }

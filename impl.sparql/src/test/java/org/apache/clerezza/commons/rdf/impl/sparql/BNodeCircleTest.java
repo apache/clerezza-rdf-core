@@ -25,10 +25,10 @@ import com.hp.hpl.jena.rdf.model.ModelFactory;
 import java.io.InputStream;
 import java.util.Iterator;
 import org.apache.clerezza.commons.rdf.BlankNode;
-import org.apache.clerezza.commons.rdf.BlankNodeOrIri;
+import org.apache.clerezza.commons.rdf.BlankNodeOrIRI;
 import org.apache.clerezza.commons.rdf.Graph;
-import org.apache.clerezza.commons.rdf.Iri;
-import org.apache.clerezza.commons.rdf.RdfTerm;
+import org.apache.clerezza.commons.rdf.IRI;
+import org.apache.clerezza.commons.rdf.RDFTerm;
 import org.apache.clerezza.commons.rdf.Triple;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -77,8 +77,8 @@ public class BNodeCircleTest {
         final Iterator<Triple> iter = graph.filter(null, null, null);
         Assert.assertTrue(iter.hasNext());
         final Triple triple1 = iter.next();
-        final BlankNodeOrIri subject = triple1.getSubject();
-        final RdfTerm object = triple1.getObject();
+        final BlankNodeOrIRI subject = triple1.getSubject();
+        final RDFTerm object = triple1.getObject();
         Assert.assertTrue(subject instanceof BlankNode);
         Assert.assertTrue(object instanceof BlankNode);
         Assert.assertNotEquals(subject, object);
@@ -89,13 +89,13 @@ public class BNodeCircleTest {
     public void foafKnowsFilter() {
         final Graph graph = new SparqlGraph("http://localhost:" + serverPort + "/ds/query");
         
-        final Iri foafKnows = new Iri("http://xmlns.com/foaf/0.1/knows");
+        final IRI foafKnows = new IRI("http://xmlns.com/foaf/0.1/knows");
 
         final Iterator<Triple> iter = graph.filter(null, foafKnows, null);
         Assert.assertTrue(iter.hasNext());
         final Triple triple1 = iter.next();
-        final BlankNodeOrIri subject = triple1.getSubject();
-        final RdfTerm object = triple1.getObject();
+        final BlankNodeOrIRI subject = triple1.getSubject();
+        final RDFTerm object = triple1.getObject();
         Assert.assertTrue(subject instanceof BlankNode);
         Assert.assertTrue(object instanceof BlankNode);
         Assert.assertNotEquals(subject, object);

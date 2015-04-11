@@ -29,10 +29,10 @@ package org.apache.clerezza.commons.rdf.impl.utils.simple;
 import org.junit.Test;
 import junit.framework.Assert;
 
-import org.apache.clerezza.commons.rdf.BlankNodeOrIri;
-import org.apache.clerezza.commons.rdf.RdfTerm;
+import org.apache.clerezza.commons.rdf.BlankNodeOrIRI;
+import org.apache.clerezza.commons.rdf.RDFTerm;
 import org.apache.clerezza.commons.rdf.Triple;
-import org.apache.clerezza.commons.rdf.Iri;
+import org.apache.clerezza.commons.rdf.IRI;
 import org.apache.clerezza.commons.rdf.impl.utils.PlainLiteralImpl;
 import org.apache.clerezza.commons.rdf.impl.utils.TripleImpl;
 /**
@@ -45,9 +45,9 @@ public class TripleImplTest {
     
     
     @Test public void tripleEquality() {
-        BlankNodeOrIri subject = new Iri("http://example.org/");
-        Iri predicate = new Iri("http://example.org/property");
-        RdfTerm object = new PlainLiteralImpl("property value");
+        BlankNodeOrIRI subject = new IRI("http://example.org/");
+        IRI predicate = new IRI("http://example.org/property");
+        RDFTerm object = new PlainLiteralImpl("property value");
         Triple triple1 = new TripleImpl(subject, predicate, object);
         Triple triple2 = new TripleImpl(subject, predicate, object);
         Assert.assertEquals(triple1.hashCode(), triple2.hashCode());

@@ -27,10 +27,10 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import org.apache.clerezza.commons.rdf.Graph;
-import org.apache.clerezza.commons.rdf.Iri;
+import org.apache.clerezza.commons.rdf.IRI;
 import org.apache.clerezza.commons.rdf.Language;
 import org.apache.clerezza.commons.rdf.Literal;
-import org.apache.clerezza.commons.rdf.RdfTerm;
+import org.apache.clerezza.commons.rdf.RDFTerm;
 import org.apache.clerezza.commons.rdf.Triple;
 import org.apache.clerezza.commons.rdf.impl.utils.PlainLiteralImpl;
 import org.junit.AfterClass;
@@ -75,10 +75,10 @@ public class SparqlGraphTest {
     @Test
     public void filter1() {
         final Graph graph = new SparqlGraph("http://localhost:" + serverPort + "/ds/query");
-        final Iri spiderman = new Iri("http://example.org/#spiderman");
-        final Iri greenGoblin = new Iri("http://example.org/#green-goblin");
-        final Iri enemyOf = new Iri("http://www.perceive.net/schemas/relationship/enemyOf");
-        final Iri foafName = new Iri("http://xmlns.com/foaf/0.1/name");
+        final IRI spiderman = new IRI("http://example.org/#spiderman");
+        final IRI greenGoblin = new IRI("http://example.org/#green-goblin");
+        final IRI enemyOf = new IRI("http://www.perceive.net/schemas/relationship/enemyOf");
+        final IRI foafName = new IRI("http://xmlns.com/foaf/0.1/name");
         {
             final Iterator<Triple> iter = graph.filter(spiderman, null, greenGoblin);
             Assert.assertTrue(iter.hasNext());
@@ -90,7 +90,7 @@ public class SparqlGraphTest {
             Set<Literal> names = new HashSet<>();
             for (int i = 0; i < 2; i++) {
                 Assert.assertTrue(iter.hasNext());
-                RdfTerm name = iter.next().getObject();
+                RDFTerm name = iter.next().getObject();
                 Assert.assertTrue(name instanceof Literal);
                 names.add((Literal)name);
             }

@@ -25,9 +25,9 @@ import com.hp.hpl.jena.rdf.model.ModelFactory;
 import java.io.InputStream;
 import java.util.Iterator;
 import org.apache.clerezza.commons.rdf.BlankNode;
-import org.apache.clerezza.commons.rdf.BlankNodeOrIri;
+import org.apache.clerezza.commons.rdf.BlankNodeOrIRI;
 import org.apache.clerezza.commons.rdf.Graph;
-import org.apache.clerezza.commons.rdf.Iri;
+import org.apache.clerezza.commons.rdf.IRI;
 import org.apache.clerezza.commons.rdf.Triple;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -74,16 +74,16 @@ public class SimilarBNodes {
     public void foafKnowsFilter() {
         final Graph graph = new SparqlGraph("http://localhost:" + serverPort + "/ds/query");
         
-        final Iri foafKnows = new Iri("http://xmlns.com/foaf/0.1/knows");
+        final IRI foafKnows = new IRI("http://xmlns.com/foaf/0.1/knows");
 
         final Iterator<Triple> iter = graph.filter(null, foafKnows, null);
         Assert.assertTrue(iter.hasNext());
         final Triple triple1 = iter.next();
-        final BlankNodeOrIri subject1 = triple1.getSubject();
+        final BlankNodeOrIRI subject1 = triple1.getSubject();
         Assert.assertTrue(subject1 instanceof BlankNode);
         Assert.assertTrue(iter.hasNext());
         final Triple triple2 = iter.next();
-        final BlankNodeOrIri subject2 = triple2.getSubject();
+        final BlankNodeOrIRI subject2 = triple2.getSubject();
         Assert.assertTrue(subject2 instanceof BlankNode);
         Assert.assertNotEquals(subject1, subject2);
     }

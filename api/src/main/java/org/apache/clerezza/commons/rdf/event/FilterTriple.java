@@ -18,10 +18,10 @@
  */
 package org.apache.clerezza.commons.rdf.event;
 
-import org.apache.clerezza.commons.rdf.BlankNodeOrIri;
-import org.apache.clerezza.commons.rdf.RdfTerm;
+import org.apache.clerezza.commons.rdf.BlankNodeOrIRI;
+import org.apache.clerezza.commons.rdf.RDFTerm;
 import org.apache.clerezza.commons.rdf.Triple;
-import org.apache.clerezza.commons.rdf.Iri;
+import org.apache.clerezza.commons.rdf.IRI;
 
 /**
  * The <code>FilterTriple</code> class provides a match()-method that tests
@@ -31,9 +31,9 @@ import org.apache.clerezza.commons.rdf.Iri;
  */
 public class FilterTriple {
 
-    private BlankNodeOrIri subject;
-    private Iri predicate;
-    private RdfTerm object;
+    private BlankNodeOrIRI subject;
+    private IRI predicate;
+    private RDFTerm object;
     
     /**
      * Creates a new <code>FilterTriple</code>. The specified subject,
@@ -44,7 +44,7 @@ public class FilterTriple {
      * @param predicate  the predicate.
      * @param object  the object.
      */
-    public FilterTriple (BlankNodeOrIri subject, Iri predicate, RdfTerm object) {
+    public FilterTriple (BlankNodeOrIRI subject, IRI predicate, RDFTerm object) {
         this.subject = subject;
         this.predicate = predicate;
         this.object = object;

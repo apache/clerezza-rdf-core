@@ -22,7 +22,7 @@ import org.apache.clerezza.commons.rdf.impl.utils.TypedLiteralImpl;
 import org.junit.Test;
 import junit.framework.Assert;
 
-import org.apache.clerezza.commons.rdf.Iri;
+import org.apache.clerezza.commons.rdf.IRI;
 import org.apache.clerezza.commons.rdf.Literal;
 /**
  *
@@ -41,14 +41,14 @@ public class TypedLiteralImplTest {
     
     @Test public void typedLiteralEquality() {
         String stringValue = "some text";
-        Iri uriRef = new Iri("http://example.org/datatypes/magic");
+        IRI uriRef = new IRI("http://example.org/datatypes/magic");
         Literal literal1 = new TypedLiteralImpl(stringValue, uriRef);
         Literal literal2 = new TypedLiteralImpl(stringValue, uriRef);        
         Assert.assertEquals(literal1, literal2);
         Assert.assertEquals(literal1.hashCode(), literal2.hashCode());
         Literal literal3 = new TypedLiteralImpl("something else", uriRef);
         Assert.assertFalse(literal1.equals(literal3));
-        Iri uriRef2 = new Iri("http://example.org/datatypes/other");
+        IRI uriRef2 = new IRI("http://example.org/datatypes/other");
         Literal literal4 = new TypedLiteralImpl(stringValue, uriRef2);
         Assert.assertFalse(literal1.equals(literal4));
     }
@@ -59,7 +59,7 @@ public class TypedLiteralImplTest {
      */
     @Test public void checkHashCode() {
         String stringValue = "some text";
-        Iri uriRef = new Iri("http://example.org/datatypes/magic");
+        IRI uriRef = new IRI("http://example.org/datatypes/magic");
         Literal literal =  new TypedLiteralImpl(stringValue, uriRef);
         Assert.assertEquals(stringValue.hashCode() + uriRef.hashCode(), literal.hashCode());
     }

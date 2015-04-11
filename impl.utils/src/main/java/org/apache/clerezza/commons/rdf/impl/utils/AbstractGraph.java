@@ -29,12 +29,12 @@ import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
-import org.apache.clerezza.commons.rdf.BlankNodeOrIri;
-import org.apache.clerezza.commons.rdf.RdfTerm;
+import org.apache.clerezza.commons.rdf.BlankNodeOrIRI;
+import org.apache.clerezza.commons.rdf.RDFTerm;
 import org.apache.clerezza.commons.rdf.Triple;
 import org.apache.clerezza.commons.rdf.Graph;
 import org.apache.clerezza.commons.rdf.ImmutableGraph;
-import org.apache.clerezza.commons.rdf.Iri;
+import org.apache.clerezza.commons.rdf.IRI;
 import org.apache.clerezza.commons.rdf.WatchableGraph;
 import org.apache.clerezza.commons.rdf.event.AddEvent;
 import org.apache.clerezza.commons.rdf.event.FilterTriple;
@@ -104,7 +104,7 @@ public abstract class AbstractGraph extends AbstractCollection<Triple>
     }
 
     @Override
-    public Iterator<Triple> filter(BlankNodeOrIri subject, Iri predicate, RdfTerm object) {
+    public Iterator<Triple> filter(BlankNodeOrIRI subject, IRI predicate, RDFTerm object) {
         readLock.lock();
         try {
             return new LockingIterator(performFilter(subject, predicate, object), lock);
@@ -260,7 +260,7 @@ public abstract class AbstractGraph extends AbstractCollection<Triple>
     }
 
 
-    protected abstract Iterator<Triple> performFilter(BlankNodeOrIri subject, Iri predicate, RdfTerm object);
+    protected abstract Iterator<Triple> performFilter(BlankNodeOrIRI subject, IRI predicate, RDFTerm object);
 
     protected abstract int performSize();
 

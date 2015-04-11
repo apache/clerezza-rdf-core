@@ -19,7 +19,7 @@
 package org.apache.clerezza.commons.rdf.impl.utils;
 
 import java.io.Serializable;
-import org.apache.clerezza.commons.rdf.Iri;
+import org.apache.clerezza.commons.rdf.IRI;
 
 import org.apache.clerezza.commons.rdf.Language;
 import org.apache.clerezza.commons.rdf.Literal;
@@ -69,9 +69,9 @@ public class PlainLiteralImpl extends AbstractLiteral implements Literal, Serial
     }
 
     @Override
-    public Iri getDataType() {
+    public IRI getDataType() {
         return XSD_STRING;
     }
-    private static final Iri XSD_STRING = new Iri("http://www.w3.org/2001/XMLSchema#string");
+    private static final IRI XSD_STRING = new IRI("http://www.w3.org/2001/XMLSchema#string");
     private static final int XSD_STRING_HASH = XSD_STRING.hashCode();
 }

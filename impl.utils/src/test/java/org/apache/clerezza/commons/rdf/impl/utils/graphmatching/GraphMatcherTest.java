@@ -22,11 +22,11 @@ import org.apache.clerezza.commons.rdf.impl.utils.graphmatching.GraphMatcher;
 import java.util.Map;
 import org.apache.clerezza.commons.rdf.BlankNode;
 import org.apache.clerezza.commons.rdf.Graph;
-import org.apache.clerezza.commons.rdf.BlankNodeOrIri;
-import org.apache.clerezza.commons.rdf.RdfTerm;
+import org.apache.clerezza.commons.rdf.BlankNodeOrIRI;
+import org.apache.clerezza.commons.rdf.RDFTerm;
 import org.apache.clerezza.commons.rdf.Triple;
 import org.apache.clerezza.commons.rdf.Graph;
-import org.apache.clerezza.commons.rdf.Iri;
+import org.apache.clerezza.commons.rdf.IRI;
 import org.apache.clerezza.commons.rdf.impl.utils.simple.SimpleMGraph;
 import org.apache.clerezza.commons.rdf.impl.utils.TripleImpl;
 import org.junit.Assert;
@@ -38,7 +38,7 @@ import org.junit.Test;
  */
 public class GraphMatcherTest {
 
-    final static Iri u1 = new Iri("http://example.org/u1");
+    final static IRI u1 = new IRI("http://example.org/u1");
 
     @Test
     public void testEmpty() {
@@ -107,12 +107,12 @@ public class GraphMatcherTest {
         return generateCircle(size, new BlankNode());
     }
 
-    private Graph generateCircle(int size, final BlankNodeOrIri firstNode) {
+    private Graph generateCircle(int size, final BlankNodeOrIRI firstNode) {
         if (size < 1) {
             throw new IllegalArgumentException();
         }
         Graph result = new SimpleMGraph();
-        BlankNodeOrIri lastNode = firstNode;
+        BlankNodeOrIRI lastNode = firstNode;
         for (int i = 0; i < (size-1); i++) {
             final BlankNode newNode = new BlankNode();
             result.add(new TripleImpl(lastNode, u1, newNode));
@@ -142,7 +142,7 @@ public class GraphMatcherTest {
 
     @Test
     public void test9() {
-        BlankNodeOrIri crossing = new Iri("http://example.org/");
+        BlankNodeOrIRI crossing = new IRI("http://example.org/");
         Graph tc1 = generateCircle(2,crossing);
         tc1.addAll(generateCircle(3,crossing));
         Graph tc2 = generateCircle(2,crossing);
@@ -156,10 +156,10 @@ public class GraphMatcherTest {
 
     @Test
     public void test10() {
-        BlankNodeOrIri crossing1 = new BlankNode();
+        BlankNodeOrIRI crossing1 = new BlankNode();
         Graph tc1 = generateCircle(2,crossing1);
         tc1.addAll(generateCircle(3,crossing1));
-        BlankNodeOrIri crossing2 = new BlankNode();
+        BlankNodeOrIRI crossing2 = new BlankNode();
         Graph tc2 = generateCircle(2,crossing2);
         tc2.addAll(generateCircle(3,crossing2));
         Assert.assertEquals(5, tc1.size());
@@ -171,10 +171,10 @@ public class GraphMatcherTest {
 
     @Test
     public void test11() {
-        BlankNodeOrIri crossing1 = new BlankNode();
+        BlankNodeOrIRI crossing1 = new BlankNode();
         Graph tc1 = generateCircle(2,crossing1);
         tc1.addAll(generateCircle(4,crossing1));
-        BlankNodeOrIri crossing2 = new BlankNode();
+        BlankNodeOrIRI crossing2 = new BlankNode();
         Graph tc2 = generateCircle(3,crossing2);
         tc2.addAll(generateCircle(3,crossing2));
         Assert.assertEquals(6, tc1.size());
@@ -184,10 +184,10 @@ public class GraphMatcherTest {
 
     @Test
     public void test12() {
-        BlankNodeOrIri start1 = new BlankNode();
+        BlankNodeOrIRI start1 = new BlankNode();
         Graph tc1 = Utils4Testing.generateLine(4,start1);
         tc1.addAll(Utils4Testing.generateLine(5,start1));
-        BlankNodeOrIri start2 = new BlankNode();
+        BlankNodeOrIRI start2 = new BlankNode();
         Graph tc2 = Utils4Testing.generateLine(5,start2);
         tc2.addAll(Utils4Testing.generateLine(4,start2));
         Assert.assertEquals(9, tc1.size());
@@ -198,10 +198,10 @@ public class GraphMatcherTest {
 
     @Test
     public void test13() {
-        BlankNodeOrIri start1 = new BlankNode();
+        BlankNodeOrIRI start1 = new BlankNode();
         Graph tc1 = Utils4Testing.generateLine(4,start1);
         tc1.addAll(Utils4Testing.generateLine(5,start1));
-        BlankNodeOrIri start2 = new BlankNode();
+        BlankNodeOrIRI start2 = new BlankNode();
         Graph tc2 = Utils4Testing.generateLine(3,start2);
         tc2.addAll(Utils4Testing.generateLine(3,start2));
         Assert.assertEquals(9, tc1.size());

@@ -28,11 +28,11 @@ import java.util.Map;
 import java.util.Set;
 import org.apache.clerezza.commons.rdf.BlankNode;
 import org.apache.clerezza.commons.rdf.Graph;
-import org.apache.clerezza.commons.rdf.BlankNodeOrIri;
-import org.apache.clerezza.commons.rdf.RdfTerm;
+import org.apache.clerezza.commons.rdf.BlankNodeOrIRI;
+import org.apache.clerezza.commons.rdf.RDFTerm;
 import org.apache.clerezza.commons.rdf.Triple;
 import org.apache.clerezza.commons.rdf.Graph;
-import org.apache.clerezza.commons.rdf.Iri;
+import org.apache.clerezza.commons.rdf.IRI;
 import org.apache.clerezza.commons.rdf.impl.utils.TripleImpl;
 import org.apache.clerezza.commons.rdf.impl.utils.graphmatching.collections.IntIterator;
 
@@ -135,7 +135,7 @@ public class HashMatching {
             final BlankNode bNode2 = nodes2.iterator().next();
             matchings.put(bNode1,bNode2);
             //in the graphs replace node occurences with grounded node,
-            BlankNodeOrIri mappedNode = new MappedNode(bNode1, bNode2);
+            BlankNodeOrIRI mappedNode = new MappedNode(bNode1, bNode2);
             replaceNode(g1,bNode1, mappedNode);
             replaceNode(g2, bNode2, mappedNode);
             //remove grounded triples
@@ -177,7 +177,7 @@ public class HashMatching {
         }
         return result;
     }
-    private static int nodeHash(RdfTerm resource, Map<BlankNode, Integer> bNodeHashMap) {
+    private static int nodeHash(RDFTerm resource, Map<BlankNode, Integer> bNodeHashMap) {
         if (resource instanceof BlankNode) {
             Integer mapValue = bNodeHashMap.get((BlankNode)resource);
             if (mapValue == null) {
@@ -189,7 +189,7 @@ public class HashMatching {
             return resource.hashCode();
         }
     }
-    private static void replaceNode(Graph graph, BlankNode bNode, BlankNodeOrIri replacementNode) {
+    private static void replaceNode(Graph graph, BlankNode bNode, BlankNodeOrIRI replacementNode) {
         Set<Triple> triplesToRemove = new HashSet<Triple>();
         for (Triple triple : graph) {
             Triple replacementTriple = getReplacement(triple, bNode, replacementNode);
@@ -200,7 +200,7 @@ public class HashMatching {
         }
         graph.removeAll(triplesToRemove);
     }
-    private static Triple getReplacement(Triple triple, BlankNode bNode, BlankNodeOrIri replacementNode) {
+    private static Triple getReplacement(Triple triple, BlankNode bNode, BlankNodeOrIRI replacementNode) {
         if (triple.getSubject().equals(bNode)) {
             if (triple.getObject().equals(bNode)) {
                 return new TripleImpl(replacementNode, triple.getPredicate(), replacementNode);
@@ -225,10 +225,10 @@ public class HashMatching {
     }
     
     private static class BackwardProperty implements Property {
-        private BlankNodeOrIri subject;
-        private Iri predicate;
+        private BlankNodeOrIRI subject;
+        private IRI predicate;
     
-        public BackwardProperty(BlankNodeOrIri subject, Iri predicate) {
+        public BackwardProperty(BlankNodeOrIRI subject, IRI predicate) {
             this.subject = subject;
             this.predicate = predicate;
         }
@@ -240,10 +240,10 @@ public class HashMatching {
     
     }
     private static class ForwardProperty implements Property {
-        private Iri predicate;
-        private RdfTerm object;
+        private IRI predicate;
+        private RDFTerm object;
     
-        public ForwardProperty(Iri predicate, RdfTerm object) {
+        public ForwardProperty(IRI predicate, RDFTerm object) {
             this.predicate = predicate;
             this.object = object;
         }
@@ -253,7 +253,7 @@ public class HashMatching {
             return predicate.hashCode() ^ nodeHash(object, bNodeHashMap);
         }
     }
-    private static class MappedNode implements BlankNodeOrIri {
+    private static class MappedNode implements BlankNodeOrIRI {
         private BlankNode bNode1, bNode2;
     
         public MappedNode(BlankNode bNode1, BlankNode bNode2) {

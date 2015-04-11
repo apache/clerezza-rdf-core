@@ -45,8 +45,8 @@ public interface Graph extends Collection<Triple> {
      * @param object
      * @return <code>Iterator</code>
      */
-    public Iterator<Triple> filter(BlankNodeOrIri subject, Iri predicate, 
-            RdfTerm object);
+    public Iterator<Triple> filter(BlankNodeOrIRI subject, IRI predicate, 
+            RDFTerm object);
 
     /**
      * Returns true if <code>other</code> describes the same graph and will 

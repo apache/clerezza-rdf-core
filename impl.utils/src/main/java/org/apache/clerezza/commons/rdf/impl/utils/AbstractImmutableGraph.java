@@ -23,7 +23,7 @@ import java.util.Iterator;
 
 import org.apache.clerezza.commons.rdf.BlankNode;
 import org.apache.clerezza.commons.rdf.ImmutableGraph;
-import org.apache.clerezza.commons.rdf.RdfTerm;
+import org.apache.clerezza.commons.rdf.RDFTerm;
 import org.apache.clerezza.commons.rdf.Triple;
 import org.apache.clerezza.commons.rdf.impl.utils.graphmatching.GraphMatcher;
 
@@ -51,12 +51,12 @@ public abstract class AbstractImmutableGraph extends AbstractGraph
      */
     private int getBlankNodeBlindHash(Triple triple) {
         int hash = triple.getPredicate().hashCode();
-        RdfTerm subject = triple.getSubject();
+        RDFTerm subject = triple.getSubject();
 
         if (!(subject instanceof BlankNode)) {
             hash ^= subject.hashCode() >> 1;
         }
-        RdfTerm object = triple.getObject();
+        RDFTerm object = triple.getObject();
         if (!(object instanceof BlankNode)) {
             hash ^= object.hashCode() << 1;
         }

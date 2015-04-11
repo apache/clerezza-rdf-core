@@ -32,9 +32,9 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import javax.xml.parsers.*;
 import org.apache.clerezza.commons.rdf.BlankNode;
-import org.apache.clerezza.commons.rdf.Iri;
+import org.apache.clerezza.commons.rdf.IRI;
 import org.apache.clerezza.commons.rdf.Language;
-import org.apache.clerezza.commons.rdf.RdfTerm;
+import org.apache.clerezza.commons.rdf.RDFTerm;
 import org.apache.clerezza.commons.rdf.impl.utils.AbstractLiteral;
 import org.xml.sax.*;
 import org.xml.sax.helpers.*;
@@ -51,7 +51,7 @@ public class SparqlClient {
         this.endpoint = endpoint;
     }
 
-    List<Map<String, RdfTerm>> queryResultSet(final String query) throws IOException {
+    List<Map<String, RDFTerm>> queryResultSet(final String query) throws IOException {
         CloseableHttpClient httpclient = HttpClients.createDefault();
         HttpPost httpPost = new HttpPost(endpoint);
         List<NameValuePair> nvps = new ArrayList<NameValuePair>();
@@ -91,22 +91,22 @@ public class SparqlClient {
     final public static class SparqlsResultsHandler extends DefaultHandler {
 
         private String currentBindingName;
-        private Map<String, RdfTerm> currentResult = null;
-        private final List<Map<String, RdfTerm>> results = new ArrayList<>();
+        private Map<String, RDFTerm> currentResult = null;
+        private final List<Map<String, RDFTerm>> results = new ArrayList<>();
         private boolean readingValue;
         private String lang; //the xml:lang attribute of a literal
         private String value;
         private Map<String, BlankNode> bNodeMap = new HashMap<>();
-        private static final Iri XSD_STRING = new Iri("http://www.w3.org/2001/XMLSchema#string");
+        private static final IRI XSD_STRING = new IRI("http://www.w3.org/2001/XMLSchema#string");
 
-        private RdfTerm getBNode(String value) {
+        private RDFTerm getBNode(String value) {
             if (!bNodeMap.containsKey(value)) {
                 bNodeMap.put(value, new BlankNode());
             }
             return bNodeMap.get(value);
         }
 
-        private List<Map<String, RdfTerm>> getResults() {
+        private List<Map<String, RDFTerm>> getResults() {
             return results;
         }
 
@@ -175,11 +175,11 @@ public class SparqlClient {
                 } else {
                     try {
                         BindingType b = BindingType.valueOf(localName);
-                        RdfTerm rdfTerm = null;
+                        RDFTerm rdfTerm = null;
                         final Language language = lang == null? null : new Language(lang);;
                         switch (b) {
                             case uri:
-                                rdfTerm = new Iri(value);
+                                rdfTerm = new IRI(value);
                                 break;
                             case bnode:
                                 rdfTerm = getBNode(value);
@@ -194,7 +194,7 @@ public class SparqlClient {
                                     }
 
                                     @Override
-                                    public Iri getDataType() {
+                                    public IRI getDataType() {
                                         //TODO implement
                                         return XSD_STRING;
                                     }
