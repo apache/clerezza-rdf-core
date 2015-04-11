@@ -39,7 +39,7 @@
     <groupId>org.apache.clerezza.commons-rdf</groupId>
     <artifactId>commons-reactor</artifactId>
     <packaging>pom</packaging>
-    <version>0.2-SNAPSHOT</version>
+    <version>0.1</version>
     <name>Clerezza Commons RDF</name>
     <description>
         Apache Commons RDF provides an API modelling the RDF data model as defined by 
@@ -58,7 +58,7 @@
         <connection>scm:git:https://git-wip-us.apache.org/repos/asf/clerezza-rdf-core.git</connection>
         <developerConnection>scm:git:https://git-wip-us.apache.org/repos/asf/clerezza-rdf-core.git</developerConnection>
         <url>https://git-wip-us.apache.org/repos/asf/clerezza-rdf-core.git</url>
-      <tag>HEAD</tag>
+      <tag>0.1</tag>
   </scm>
 
     <modules>
