@@ -98,6 +98,7 @@ public class SparqlClient {
         private String value;
         private Map<String, BlankNode> bNodeMap = new HashMap<>();
         private static final IRI XSD_STRING = new IRI("http://www.w3.org/2001/XMLSchema#string");
+        private static final IRI RDF_LANG_STRING = new IRI("http://www.w3.org/1999/02/22-rdf-syntax-ns#langString");
 
         private RDFTerm getBNode(String value) {
             if (!bNodeMap.containsKey(value)) {
@@ -195,6 +196,9 @@ public class SparqlClient {
 
                                     @Override
                                     public IRI getDataType() {
+                                        if (language != null) {
+                                            return RDF_LANG_STRING;
+                                        }
                                         //TODO implement
                                         return XSD_STRING;
                                     }

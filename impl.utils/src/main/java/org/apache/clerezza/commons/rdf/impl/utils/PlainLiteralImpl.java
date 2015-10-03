@@ -30,14 +30,11 @@ import org.apache.clerezza.commons.rdf.Literal;
  */
 public class PlainLiteralImpl extends AbstractLiteral implements Literal, Serializable {
 
-    private String lexicalForm;
-    private Language language = null;
+    private final String lexicalForm;
+    private final Language language;
 
     public PlainLiteralImpl(String value) {
-        if (value == null) {
-            throw new IllegalArgumentException("The literal string cannot be null");
-        }
-        this.lexicalForm = value;
+        this(value, null);
     }
 
     public PlainLiteralImpl(String value, Language language) {
@@ -46,6 +43,11 @@ public class PlainLiteralImpl extends AbstractLiteral implements Literal, Serial
         }
         this.lexicalForm = value;
         this.language = language;
+        if (language == null) {
+            dataType = XSD_STRING;
+        } else {
+            dataType = RDF_LANG_STRING;
+        }
     }
 
     @Override
@@ -70,8 +72,10 @@ public class PlainLiteralImpl extends AbstractLiteral implements Literal, Serial
 
     @Override
     public IRI getDataType() {
-        return XSD_STRING;
+        return dataType;
     }
+    private final IRI dataType;
     private static final IRI XSD_STRING = new IRI("http://www.w3.org/2001/XMLSchema#string");
-    private static final int XSD_STRING_HASH = XSD_STRING.hashCode();
+    private static final IRI RDF_LANG_STRING = new IRI("http://www.w3.org/1999/02/22-rdf-syntax-ns#langString");
+    //private static final int XSD_STRING_HASH = dataType.hashCode();
 }
