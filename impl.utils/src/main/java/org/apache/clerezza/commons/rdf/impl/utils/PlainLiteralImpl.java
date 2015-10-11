@@ -62,7 +62,7 @@ public class PlainLiteralImpl extends AbstractLiteral implements Literal, Serial
 
     @Override
     public String toString() {
-        StringBuffer result = new StringBuffer();
+        final StringBuilder result = new StringBuilder();
         result.append('\"').append(lexicalForm).append('\"');
         if (language != null) {
             result.append("@").append(language.toString());
@@ -77,5 +77,4 @@ public class PlainLiteralImpl extends AbstractLiteral implements Literal, Serial
     private final IRI dataType;
     private static final IRI XSD_STRING = new IRI("http://www.w3.org/2001/XMLSchema#string");
     private static final IRI RDF_LANG_STRING = new IRI("http://www.w3.org/1999/02/22-rdf-syntax-ns#langString");
-    //private static final int XSD_STRING_HASH = dataType.hashCode();
 }
