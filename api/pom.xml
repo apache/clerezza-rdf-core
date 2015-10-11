@@ -30,7 +30,7 @@
 
     <groupId>org.apache.clerezza.commons-rdf</groupId>
     <artifactId>commons-rdf-api</artifactId>
-    <version>0.2</version>
+    <version>0.3-SNAPSHOT</version>
     <packaging>bundle</packaging>
     <name>Clerezza Commons RDF API</name>
     <description>
@@ -50,7 +50,7 @@
         <connection>scm:git:https://git-wip-us.apache.org/repos/asf/clerezza-rdf-core.git</connection>
         <developerConnection>scm:git:https://git-wip-us.apache.org/repos/asf/clerezza-rdf-core.git</developerConnection>
         <url>https://git-wip-us.apache.org/repos/asf/clerezza-rdf-core.git</url>
-      <tag>commons-reactor-0.2</tag>
+      <tag>HEAD</tag>
   </scm>
 
 
