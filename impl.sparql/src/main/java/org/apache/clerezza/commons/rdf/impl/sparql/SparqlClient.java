@@ -15,8 +15,11 @@
  */
 package org.apache.clerezza.commons.rdf.impl.sparql;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -95,7 +98,7 @@ public class SparqlClient {
         private final List<Map<String, RDFTerm>> results = new ArrayList<>();
         private boolean readingValue;
         private String lang; //the xml:lang attribute of a literal
-        private String value;
+        private StringWriter valueWriter;
         private Map<String, BlankNode> bNodeMap = new HashMap<>();
         private static final IRI XSD_STRING = new IRI("http://www.w3.org/2001/XMLSchema#string");
         private static final IRI RDF_LANG_STRING = new IRI("http://www.w3.org/1999/02/22-rdf-syntax-ns#langString");
@@ -144,6 +147,7 @@ public class SparqlClient {
                     }
                     lang = atts.getValue("http://www.w3.org/XML/1998/namespace", "lang");
                     readingValue = true;
+                    valueWriter = new StringWriter();
                 }
             }
 
@@ -154,7 +158,7 @@ public class SparqlClient {
         @Override
         public void characters(char[] chars, int start, int length) throws SAXException {
             if (readingValue) {
-                value = new String(chars, start, length);
+                valueWriter.write(chars, start, length);
                 //System.err.println(value + start + ", " + length);
             }
         }
@@ -180,13 +184,15 @@ public class SparqlClient {
                         final Language language = lang == null? null : new Language(lang);;
                         switch (b) {
                             case uri:
-                                rdfTerm = new IRI(value);
+                                rdfTerm = new IRI(valueWriter.toString());
+                                valueWriter = null;
                                 break;
                             case bnode:
-                                rdfTerm = getBNode(value);
+                                rdfTerm = getBNode(valueWriter.toString());
+                                valueWriter = null;
                                 break;
                             case literal:
-                                final String lf = value;
+                                final String lf = valueWriter.toString();
                                 rdfTerm = new AbstractLiteral() {
 
                                     @Override

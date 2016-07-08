@@ -387,6 +387,7 @@ public class SparqlGraph extends AbstractGraph {
     @Override
     protected int performSize() {
         try {
+            //TODO replace this with count
             return sparqlClient.queryResultSet("SELECT * WHERE { ?s ?p ?o}").size();
         } catch (IOException ex) {
             throw new RuntimeException(ex);
@@ -399,7 +400,7 @@ public class SparqlGraph extends AbstractGraph {
 
     private String asSparqlTerm(Literal literal) {
         //TODO langauge and datatype
-        return "\"" + literal.getLexicalForm() + "\"";
+        return "\"" + literal.getLexicalForm().replace("\n", "\\n").replace("\"", "\\\"") + "\"";
     }
 
     private String asSparqlTerm(BlankNode bnode) {
