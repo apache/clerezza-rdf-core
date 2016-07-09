@@ -304,7 +304,8 @@ public class SparqlGraph extends AbstractGraph {
                             if (newTripleAdded) {
                                 //look for more results
                                 expandedContexts.addAll(expandContext(expandedContext));
-                                //expandedContexts.add(expandedContext);
+                                //continued iteration obsoleted by recursion
+                                break;
                             }
                         }
 
