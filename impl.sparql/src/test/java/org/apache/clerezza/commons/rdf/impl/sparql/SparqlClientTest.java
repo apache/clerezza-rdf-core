@@ -85,7 +85,16 @@ public class SparqlClientTest {
                         + "<http://example.org/#spiderman> "
                         + "<http://xmlns.com/foaf/0.1/name> ?name}");
         Assert.assertEquals("ASK should result to true", Boolean.TRUE, result);
-    }    
+    }
+
+    @Test
+    public void desribe() throws IOException {
+        final SparqlClient sparqlClient = new SparqlClient(
+                "http://localhost:" + serverPort + "/ds/query");
+        Object result = sparqlClient.queryResult(
+                "DESCRIBE <http://example.org/#spiderman>");
+        Assert.assertTrue("DESCRIBE should return a graph", result instanceof Graph);
+    }
 
     public static int findFreePort() {
         int port = 0;
