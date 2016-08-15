@@ -54,7 +54,11 @@ public class SparqlClient {
         this.endpoint = endpoint;
     }
 
-    List<Map<String, RDFTerm>> queryResultSet(final String query) throws IOException {
+    public List<Map<String, RDFTerm>> queryResultSet(final String query) throws IOException {
+        return (List<Map<String, RDFTerm>>) queryResult(query);
+    }
+    
+    public Object queryResult(final String query) throws IOException {
         CloseableHttpClient httpclient = HttpClients.createDefault();
         HttpPost httpPost = new HttpPost(endpoint);
         List<NameValuePair> nvps = new ArrayList<NameValuePair>();
@@ -95,7 +99,7 @@ public class SparqlClient {
 
         private String currentBindingName;
         private Map<String, RDFTerm> currentResult = null;
-        private final List<Map<String, RDFTerm>> results = new ArrayList<>();
+        private Object results = null;
         private boolean readingValue;
         private String lang; //the xml:lang attribute of a literal
         private StringWriter valueWriter;
@@ -110,8 +114,12 @@ public class SparqlClient {
             return bNodeMap.get(value);
         }
 
-        private List<Map<String, RDFTerm>> getResults() {
+        private Object getResults() {
             return results;
+        }
+        
+        private List<Map<String, RDFTerm>> getResultValueMaps() {
+            return (List<Map<String, RDFTerm>>)results;
         }
 
         enum BindingType {
@@ -130,12 +138,24 @@ public class SparqlClient {
                 String qName,
                 Attributes atts)
                 throws SAXException {
-            if ("http://www.w3.org/2005/sparql-results#".equals(namespaceURI)) {
-                if ("result".equals(localName)) {
+            if ("http://www.w3.org/2005/sparql-results#".equals(namespaceURI)) {                
+                if ("boolean".equals(localName)) {
+                    if (results != null) {
+                        throw new SAXException("unexpected tag <boolean>");
+                    }
+                    //results will have Boolean value assigned once value is read
+                    readingValue = true;
+                    valueWriter = new StringWriter();
+                } else if ("results".equals(localName)) {
+                    if (results != null) {
+                        throw new SAXException("unexpected tag <result>");
+                    }
+                    results = new ArrayList<Map<String, RDFTerm>>();
+                } else if ("result".equals(localName)) {
                     if (currentResult != null) {
                         throw new SAXException("unexpected tag <result>");
                     }
-                    currentResult = new HashMap<>();
+                    currentResult = new HashMap<String, RDFTerm>();
                 } else if ("binding".equals(localName)) {
                     if (currentResult == null) {
                         throw new SAXException("unexpected tag <binding>");
@@ -170,13 +190,17 @@ public class SparqlClient {
                 throws SAXException {
             if ("http://www.w3.org/2005/sparql-results#".equals(namespaceURI)) {
                 if ("result".equals(localName)) {
-                    results.add(currentResult);
+                    ((List<Map<String, RDFTerm>>)results).add(currentResult);
                     currentResult = null;
                 } else if ("binding".equals(localName)) {
                     if (currentBindingName == null) {
                         throw new SAXException("unexpected tag </binding>");
                     }
                     currentBindingName = null;
+                } else if ("boolean".equals(localName)) {
+                    results = new Boolean(valueWriter.toString());
+                    valueWriter = null;
+                    readingValue = false;
                 } else {
                     try {
                         BindingType b = BindingType.valueOf(localName);
@@ -212,6 +236,11 @@ public class SparqlClient {
                                     @Override
                                     public Language getLanguage() {
                                         return language;
+                                    }
+                                    
+                                    @Override
+                                    public String toString() {
+                                        return "\""+getLexicalForm()+"\"@"+getLanguage();
                                     }
                                 };
                                 break;

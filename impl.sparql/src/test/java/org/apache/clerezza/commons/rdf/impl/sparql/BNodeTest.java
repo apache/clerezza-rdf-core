@@ -66,7 +66,7 @@ public class BNodeTest {
     @Test
     public void graphSize() {
         final Graph graph = new SparqlGraph("http://localhost:" + serverPort + "/ds/query");
-        Assert.assertEquals("Graph not of the exepected size", 3, graph.size());
+        Assert.assertEquals("Graph not of the expected size", 3, graph.size());
     }
 
     /* Filtering with a Bode that cannot be in graph
