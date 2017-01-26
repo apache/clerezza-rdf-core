@@ -23,10 +23,18 @@ import org.apache.jena.fuseki.EmbeddedFusekiServer;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import java.io.InputStream;
-import java.util.List;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 import org.apache.clerezza.commons.rdf.Graph;
+import org.apache.clerezza.commons.rdf.IRI;
+import org.apache.clerezza.commons.rdf.Language;
+import org.apache.clerezza.commons.rdf.Literal;
 import org.apache.clerezza.commons.rdf.RDFTerm;
+import org.apache.clerezza.commons.rdf.Triple;
+import org.apache.clerezza.commons.rdf.impl.utils.PlainLiteralImpl;
+import org.apache.clerezza.rdf.core.serializedform.Serializer;
+import org.apache.clerezza.rdf.core.serializedform.SupportedFormat;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -36,7 +44,7 @@ import org.junit.Test;
  *
  * @author reto
  */
-public class SparqlClientTest {
+public class Dadmin2Test {
 
     final static int serverPort = findFreePort();
     static EmbeddedFusekiServer server;
@@ -45,7 +53,7 @@ public class SparqlClientTest {
     public static void prepare() throws IOException {
         final String serviceURI = "http://localhost:" + serverPort + "/ds/data";
         final DatasetAccessor accessor = DatasetAccessorFactory.createHTTP(serviceURI);
-        final InputStream in = SparqlClientTest.class.getResourceAsStream("grounded.ttl");
+        final InputStream in = Dadmin2Test.class.getResourceAsStream("dadmin2.ttl");
         final Model m = ModelFactory.createDefaultModel();
         String base = "http://example.org/";
         m.read(in, base, "TURTLE");
@@ -59,36 +67,18 @@ public class SparqlClientTest {
     public static void cleanup() {
         server.stop();
     }
-    
+
     @Test
-    public void select() throws IOException {
-        final SparqlClient sparqlClient = new SparqlClient(
-                "http://localhost:" + serverPort + "/ds/query");
-        List<Map<String, RDFTerm>> result = sparqlClient.queryResultSet(
-                "SELECT ?name WHERE { "
-                        + "<http://example.org/#spiderman> "
-                        + "<http://xmlns.com/foaf/0.1/name> ?name}");
-        Assert.assertEquals("There should be two names", 2, result.size());
-    }
-    
-    @Test
-    public void ask() throws IOException {
-        final SparqlClient sparqlClient = new SparqlClient(
-                "http://localhost:" + serverPort + "/ds/query");
-        Object result = sparqlClient.queryResult(
-                "ASK { "
-                        + "<http://example.org/#spiderman> "
-                        + "<http://xmlns.com/foaf/0.1/name> ?name}");
-        Assert.assertEquals("ASK should result to true", Boolean.TRUE, result);
+    public void graphSize() {
+        final Graph graph = new SparqlGraph("http://localhost:" + serverPort + "/ds/query");
+        Assert.assertEquals("Graph not of the exepected size", 12, graph.size());
     }
 
     @Test
-    public void desribe() throws IOException {
-        final SparqlClient sparqlClient = new SparqlClient(
-                "http://localhost:" + serverPort + "/ds/query");
-        Object result = sparqlClient.queryResult(
-                "DESCRIBE <http://example.org/#spiderman>");
-        Assert.assertTrue("DESCRIBE should return a graph", result instanceof Graph);
+    public void dump() {
+        final Graph graph = new SparqlGraph("http://localhost:" + serverPort + "/ds/query");
+        Serializer serializer = Serializer.getInstance();
+        serializer.serialize(System.out, graph, SupportedFormat.TURTLE);
     }
 
     public static int findFreePort() {
