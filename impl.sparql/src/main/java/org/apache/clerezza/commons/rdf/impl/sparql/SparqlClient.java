@@ -59,7 +59,7 @@ public class SparqlClient {
         try {
             InputStream in = entity2.getContent();
             final String mediaType = entity2.getContentType().getValue();
-            if ("application/sparql-results+xml".equals(mediaType)) {
+            if (mediaType.startsWith("application/sparql-results+xml")) {
                 return SparqlResultParser.parse(in);
             } else {
                 //assuming RDF response
