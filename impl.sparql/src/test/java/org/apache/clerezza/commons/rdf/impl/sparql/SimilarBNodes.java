@@ -15,6 +15,10 @@
  */
 package org.apache.clerezza.commons.rdf.impl.sparql;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import com.hp.hpl.jena.query.DatasetAccessor;
 import com.hp.hpl.jena.query.DatasetAccessorFactory;
 import java.io.IOException;
@@ -29,10 +33,12 @@ import org.apache.clerezza.commons.rdf.BlankNodeOrIRI;
 import org.apache.clerezza.commons.rdf.Graph;
 import org.apache.clerezza.commons.rdf.IRI;
 import org.apache.clerezza.commons.rdf.Triple;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.platform.runner.JUnitPlatform;
+import org.junit.runner.RunWith;
 
 /**
  *
@@ -43,7 +49,7 @@ public class SimilarBNodes {
     final static int serverPort = findFreePort();
     static EmbeddedFusekiServer server;
 
-    @BeforeClass
+    @BeforeAll
     public static void prepare() throws IOException {
         final String serviceURI = "http://localhost:" + serverPort + "/ds/data";
         final DatasetAccessor accessor = DatasetAccessorFactory.createHTTP(serviceURI);
@@ -57,7 +63,7 @@ public class SimilarBNodes {
         accessor.putModel(m);
     }
 
-    @AfterClass
+    @AfterAll
     public static void cleanup() {
         server.stop();
     }
@@ -65,7 +71,7 @@ public class SimilarBNodes {
     @Test
     public void graphSize() {
         final Graph graph = new SparqlGraph("http://localhost:" + serverPort + "/ds/query");
-        Assert.assertEquals("Graph not of the exepected size", 2, graph.size());
+        assertEquals(2, graph.size(), "Graph not of the exepected size");
     }
 
     
@@ -77,15 +83,15 @@ public class SimilarBNodes {
         final IRI foafKnows = new IRI("http://xmlns.com/foaf/0.1/knows");
 
         final Iterator<Triple> iter = graph.filter(null, foafKnows, null);
-        Assert.assertTrue(iter.hasNext());
+        assertTrue(iter.hasNext());
         final Triple triple1 = iter.next();
         final BlankNodeOrIRI subject1 = triple1.getSubject();
-        Assert.assertTrue(subject1 instanceof BlankNode);
-        Assert.assertTrue(iter.hasNext());
+        assertTrue(subject1 instanceof BlankNode);
+        assertTrue(iter.hasNext());
         final Triple triple2 = iter.next();
         final BlankNodeOrIRI subject2 = triple2.getSubject();
-        Assert.assertTrue(subject2 instanceof BlankNode);
-        Assert.assertNotEquals(subject1, subject2);
+        assertTrue(subject2 instanceof BlankNode);
+        assertNotEquals(subject1, subject2);
     }
     
 

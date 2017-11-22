@@ -15,6 +15,10 @@
  */
 package org.apache.clerezza.commons.rdf.impl.sparql;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import com.hp.hpl.jena.query.DatasetAccessor;
 import com.hp.hpl.jena.query.DatasetAccessorFactory;
 import java.io.IOException;
@@ -30,21 +34,24 @@ import org.apache.clerezza.commons.rdf.Graph;
 import org.apache.clerezza.commons.rdf.IRI;
 import org.apache.clerezza.commons.rdf.RDFTerm;
 import org.apache.clerezza.commons.rdf.Triple;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.platform.runner.JUnitPlatform;
+import org.junit.runner.RunWith;
 
 /**
  *
  * @author reto
  */
+@RunWith(JUnitPlatform.class)
 public class BNodeCircleTest {
 
     final static int serverPort = findFreePort();
     static EmbeddedFusekiServer server;
 
-    @BeforeClass
+    @BeforeAll
     public static void prepare() throws IOException {
         final String serviceURI = "http://localhost:" + serverPort + "/ds/data";
         final DatasetAccessor accessor = DatasetAccessorFactory.createHTTP(serviceURI);
@@ -58,7 +65,7 @@ public class BNodeCircleTest {
         accessor.putModel(m);
     }
 
-    @AfterClass
+    @AfterAll
     public static void cleanup() {
         server.stop();
     }
@@ -66,7 +73,7 @@ public class BNodeCircleTest {
     @Test
     public void graphSize() {
         final Graph graph = new SparqlGraph("http://localhost:" + serverPort + "/ds/query");
-        Assert.assertEquals("Graph not of the exepected size", 2, graph.size());
+        assertEquals(2, graph.size(), "Graph not of the exepected size");
     }
 
     
@@ -75,14 +82,14 @@ public class BNodeCircleTest {
     public void nullFilter() {
         final Graph graph = new SparqlGraph("http://localhost:" + serverPort + "/ds/query");
         final Iterator<Triple> iter = graph.filter(null, null, null);
-        Assert.assertTrue(iter.hasNext());
+        assertTrue(iter.hasNext());
         final Triple triple1 = iter.next();
         final BlankNodeOrIRI subject = triple1.getSubject();
         final RDFTerm object = triple1.getObject();
-        Assert.assertTrue(subject instanceof BlankNode);
-        Assert.assertTrue(object instanceof BlankNode);
-        Assert.assertNotEquals(subject, object);
-        Assert.assertTrue(iter.hasNext());
+        assertTrue(subject instanceof BlankNode);
+        assertTrue(object instanceof BlankNode);
+        assertNotEquals(subject, object);
+        assertTrue(iter.hasNext());
     }
     
     @Test
@@ -92,14 +99,14 @@ public class BNodeCircleTest {
         final IRI foafKnows = new IRI("http://xmlns.com/foaf/0.1/knows");
 
         final Iterator<Triple> iter = graph.filter(null, foafKnows, null);
-        Assert.assertTrue(iter.hasNext());
+        assertTrue(iter.hasNext());
         final Triple triple1 = iter.next();
         final BlankNodeOrIRI subject = triple1.getSubject();
         final RDFTerm object = triple1.getObject();
-        Assert.assertTrue(subject instanceof BlankNode);
-        Assert.assertTrue(object instanceof BlankNode);
-        Assert.assertNotEquals(subject, object);
-        Assert.assertTrue(iter.hasNext());
+        assertTrue(subject instanceof BlankNode);
+        assertTrue(object instanceof BlankNode);
+        assertNotEquals(subject, object);
+        assertTrue(iter.hasNext());
     }
     
 

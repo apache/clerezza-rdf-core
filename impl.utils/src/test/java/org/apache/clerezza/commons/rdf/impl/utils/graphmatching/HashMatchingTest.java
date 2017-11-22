@@ -19,14 +19,18 @@
 
 package org.apache.clerezza.commons.rdf.impl.utils.graphmatching;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.Map;
 
 import org.apache.clerezza.commons.rdf.BlankNode;
 import org.apache.clerezza.commons.rdf.Graph;
 import org.apache.clerezza.commons.rdf.BlankNodeOrIRI;
-import org.junit.Assert;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
+import org.junit.platform.runner.JUnitPlatform;
+import org.junit.runner.RunWith;
 
 /**
  *
@@ -42,10 +46,10 @@ public class HashMatchingTest {
         BlankNodeOrIRI start2 = new BlankNode();
         Graph tc2 = Utils4Testing.generateLine(5,start2);
         tc2.addAll(Utils4Testing.generateLine(4,start2));
-        Assert.assertEquals(9, tc1.size());
+        assertEquals(9, tc1.size());
         final Map<BlankNode, BlankNode> mapping = new HashMatching(tc1, tc2).getMatchings();
-        Assert.assertNotNull(mapping);
-        Assert.assertEquals(10, mapping.size());
+        assertNotNull(mapping);
+        assertEquals(10, mapping.size());
     }
 
 }
