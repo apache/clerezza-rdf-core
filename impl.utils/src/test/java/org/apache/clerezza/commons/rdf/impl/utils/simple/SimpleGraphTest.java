@@ -18,19 +18,26 @@
  */
 package org.apache.clerezza.commons.rdf.impl.utils.simple;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import org.apache.clerezza.commons.rdf.impl.utils.TripleImpl;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
-import org.junit.Assert;
-import org.junit.Test;
+
 import org.apache.clerezza.commons.rdf.Triple;
 import org.apache.clerezza.commons.rdf.IRI;
 import org.apache.clerezza.commons.rdf.impl.utils.simple.SimpleGraph;
+
+import org.junit.jupiter.api.Test;
+import org.junit.platform.runner.JUnitPlatform;
+import org.junit.runner.RunWith;
 
 /**
  *
  * @author mir
  */
+@RunWith(JUnitPlatform.class)
 public class SimpleGraphTest {
 
     private IRI uriRef1 = new IRI("http://example.org/foo");
@@ -55,7 +62,7 @@ public class SimpleGraphTest {
             Triple triple = iter.next();
             iter.remove();
         }
-        Assert.assertEquals(0, stc.size());
+        assertEquals(0, stc.size());
     }
 
     @Test
@@ -71,7 +78,7 @@ public class SimpleGraphTest {
         stc2.add(triple3);
         stc2.add(triple5);
         stc.removeAll(stc2);
-        Assert.assertEquals(2, stc.size());
+        assertEquals(2, stc.size());
     }
     
     @Test
@@ -87,23 +94,24 @@ public class SimpleGraphTest {
             Triple triple = iter.next();
             iter.remove();
         }
-        Assert.assertEquals(3, stc.size());
+        assertEquals(3, stc.size());
     }
 
-    @Test(expected=ConcurrentModificationException.class)
+    @Test
     public void remove() {
         SimpleGraph stc = new SimpleGraph();
         stc.setCheckConcurrency(true);
-        stc.add(triple1);
-        stc.add(triple2);
-        stc.add(triple3);
-        stc.add(triple4);
-        stc.add(triple5);
-        Iterator<Triple> iter = stc.filter(uriRef1, null, null);
-        while (iter.hasNext()) {
-            Triple triple = iter.next();
-            stc.remove(triple);
-        }
-        Assert.assertEquals(3, stc.size());
+        assertThrows(ConcurrentModificationException.class, () -> {
+            stc.add(triple1);
+            stc.add(triple2);
+            stc.add(triple3);
+            stc.add(triple4);
+            stc.add(triple5);
+            Iterator<Triple> iter = stc.filter(uriRef1, null, null);
+            while (iter.hasNext()) {
+                Triple triple = iter.next();
+                stc.remove(triple);
+            }
+        });
     }
 }

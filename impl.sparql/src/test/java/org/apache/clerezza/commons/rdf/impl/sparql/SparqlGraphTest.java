@@ -15,6 +15,10 @@
  */
 package org.apache.clerezza.commons.rdf.impl.sparql;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import com.hp.hpl.jena.query.DatasetAccessor;
 import com.hp.hpl.jena.query.DatasetAccessorFactory;
 import java.io.IOException;
@@ -33,21 +37,24 @@ import org.apache.clerezza.commons.rdf.Literal;
 import org.apache.clerezza.commons.rdf.RDFTerm;
 import org.apache.clerezza.commons.rdf.Triple;
 import org.apache.clerezza.commons.rdf.impl.utils.PlainLiteralImpl;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.platform.runner.JUnitPlatform;
+import org.junit.runner.RunWith;
 
 /**
  *
  * @author reto
  */
+@RunWith(JUnitPlatform.class)
 public class SparqlGraphTest {
 
     final static int serverPort = findFreePort();
     static EmbeddedFusekiServer server;
 
-    @BeforeClass
+    @BeforeAll
     public static void prepare() throws IOException {
         final String serviceURI = "http://localhost:" + serverPort + "/ds/data";
         final DatasetAccessor accessor = DatasetAccessorFactory.createHTTP(serviceURI);
@@ -61,7 +68,7 @@ public class SparqlGraphTest {
         accessor.putModel(m);
     }
 
-    @AfterClass
+    @AfterAll
     public static void cleanup() {
         server.stop();
     }
@@ -69,7 +76,7 @@ public class SparqlGraphTest {
     @Test
     public void graphSize() {
         final Graph graph = new SparqlGraph("http://localhost:" + serverPort + "/ds/query");
-        Assert.assertEquals("Graph not of the exepected size", 8, graph.size());
+        assertEquals(8, graph.size(), "Graph not of the exepected size");
     }
 
     @Test
@@ -81,22 +88,22 @@ public class SparqlGraphTest {
         final IRI foafName = new IRI("http://xmlns.com/foaf/0.1/name");
         {
             final Iterator<Triple> iter = graph.filter(spiderman, null, greenGoblin);
-            Assert.assertTrue(iter.hasNext());
-            Assert.assertEquals(enemyOf, iter.next().getPredicate());
-            Assert.assertFalse(iter.hasNext());
+            assertTrue(iter.hasNext());
+            assertEquals(enemyOf, iter.next().getPredicate());
+            assertFalse(iter.hasNext());
         }
         {
             final Iterator<Triple> iter = graph.filter(spiderman, foafName, null);
             Set<Literal> names = new HashSet<>();
             for (int i = 0; i < 2; i++) {
-                Assert.assertTrue(iter.hasNext());
+                assertTrue(iter.hasNext());
                 RDFTerm name = iter.next().getObject();
-                Assert.assertTrue(name instanceof Literal);
+                assertTrue(name instanceof Literal);
                 names.add((Literal)name);
             }
-            Assert.assertFalse(iter.hasNext());
-            Assert.assertTrue(names.contains(new PlainLiteralImpl("Spiderman")));
-            Assert.assertTrue(names.contains(new PlainLiteralImpl("Человек-паук", new Language("ru"))));
+            assertFalse(iter.hasNext());
+            assertTrue(names.contains(new PlainLiteralImpl("Spiderman")));
+            assertTrue(names.contains(new PlainLiteralImpl("Человек-паук", new Language("ru"))));
         }
     }
 

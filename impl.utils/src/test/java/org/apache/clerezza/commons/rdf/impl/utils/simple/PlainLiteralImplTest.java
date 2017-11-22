@@ -18,18 +18,23 @@
  */
 package org.apache.clerezza.commons.rdf.impl.utils.simple;
 
-import org.apache.clerezza.commons.rdf.impl.utils.PlainLiteralImpl;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
+import org.apache.clerezza.commons.rdf.impl.utils.PlainLiteralImpl;
 import org.apache.clerezza.commons.rdf.Language;
 import org.apache.clerezza.commons.rdf.Literal;
-import org.junit.Assert;
+
+import org.junit.jupiter.api.Test;
+import org.junit.platform.runner.JUnitPlatform;
+import org.junit.runner.RunWith;
+
 /**
  *
  * @author reto
  *
  */
-
+@RunWith(JUnitPlatform.class)
 public class PlainLiteralImplTest {
 
     
@@ -37,10 +42,10 @@ public class PlainLiteralImplTest {
         String stringValue = "some text";
         Literal literal1 = new PlainLiteralImpl(stringValue);
         Literal literal2 = new PlainLiteralImpl(stringValue);        
-        Assert.assertEquals(literal1, literal2);
-        Assert.assertEquals(literal1.hashCode(), literal2.hashCode());
+        assertEquals(literal1, literal2);
+        assertEquals(literal1.hashCode(), literal2.hashCode());
         Literal literal3 = new PlainLiteralImpl("something else");
-        Assert.assertFalse(literal1.equals(literal3));
+        assertFalse(literal1.equals(literal3));
     }
     
     @Test public void languageLiteralEquality() {
@@ -48,14 +53,14 @@ public class PlainLiteralImplTest {
         Language lang = new Language("en-ca");
         Literal literal1 = new PlainLiteralImpl(stringValue, lang);
         Literal literal2 = new PlainLiteralImpl(stringValue, lang);        
-        Assert.assertEquals(literal1, literal2);
-        Assert.assertEquals(literal1.hashCode(), literal2.hashCode());
+        assertEquals(literal1, literal2);
+        assertEquals(literal1.hashCode(), literal2.hashCode());
         Language lang2 = new Language("de");
         Literal literal3 = new PlainLiteralImpl(stringValue, lang2);
-        Assert.assertFalse(literal1.equals(literal3));
+        assertFalse(literal1.equals(literal3));
         Literal literal4 = new PlainLiteralImpl(stringValue, null);
-        Assert.assertFalse(literal3.equals(literal4));
-        Assert.assertFalse(literal4.equals(literal3));
+        assertFalse(literal3.equals(literal4));
+        assertFalse(literal4.equals(literal3));
     }
 
     /**
@@ -65,7 +70,7 @@ public class PlainLiteralImplTest {
         String stringValue = "some text";
         Language language = new Language("en");
         Literal literal = new PlainLiteralImpl(stringValue, language);
-        Assert.assertEquals(literal.getDataType().hashCode() + stringValue.hashCode() + language.hashCode(), literal.hashCode());
+        assertEquals(literal.getDataType().hashCode() + stringValue.hashCode() + language.hashCode(), literal.hashCode());
     }
 
 }

@@ -15,6 +15,10 @@
  */
 package org.apache.clerezza.commons.rdf.impl.sparql;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import com.hp.hpl.jena.query.DatasetAccessor;
 import com.hp.hpl.jena.query.DatasetAccessorFactory;
 import java.io.IOException;
@@ -30,10 +34,12 @@ import org.apache.clerezza.commons.rdf.Graph;
 import org.apache.clerezza.commons.rdf.IRI;
 import org.apache.clerezza.commons.rdf.RDFTerm;
 import org.apache.clerezza.commons.rdf.Triple;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.platform.runner.JUnitPlatform;
+import org.junit.runner.RunWith;
 
 /**
  *
@@ -44,7 +50,7 @@ public class BNodeTest {
     final static int serverPort = findFreePort();
     static EmbeddedFusekiServer server;
 
-    @BeforeClass
+    @BeforeAll
     public static void prepare() throws IOException {
         final String serviceURI = "http://localhost:" + serverPort + "/ds/data";
         final DatasetAccessor accessor = DatasetAccessorFactory.createHTTP(serviceURI);
@@ -58,7 +64,7 @@ public class BNodeTest {
         accessor.putModel(m);
     }
 
-    @AfterClass
+    @AfterAll
     public static void cleanup() {
         server.stop();
     }
@@ -66,7 +72,7 @@ public class BNodeTest {
     @Test
     public void graphSize() {
         final Graph graph = new SparqlGraph("http://localhost:" + serverPort + "/ds/query");
-        Assert.assertEquals("Graph not of the expected size", 3, graph.size());
+        assertEquals(3, graph.size(), "Graph not of the expected size");
     }
 
     /* Filtering with a Bode that cannot be in graph
@@ -77,7 +83,7 @@ public class BNodeTest {
         
         final BlankNode blankNode = new BlankNode();
         final Iterator<Triple> iter = graph.filter(blankNode, null, null);
-        Assert.assertFalse(iter.hasNext());
+        assertFalse(iter.hasNext());
     }
     
     @Test
@@ -90,22 +96,22 @@ public class BNodeTest {
         final IRI rdfType = new IRI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
 
         final Iterator<Triple> iter = graph.filter(null, foafName, null);
-        Assert.assertTrue(iter.hasNext());
+        assertTrue(iter.hasNext());
         final BlankNodeOrIRI namedThing = iter.next().getSubject();
-        Assert.assertTrue(namedThing instanceof BlankNode);
+        assertTrue(namedThing instanceof BlankNode);
         
         final Iterator<Triple> iter2 = graph.filter(null, rdfType, foafPerson);
-        Assert.assertTrue(iter2.hasNext());
+        assertTrue(iter2.hasNext());
         final BlankNodeOrIRI person = iter2.next().getSubject();
-        Assert.assertTrue(person instanceof BlankNode);
-        Assert.assertEquals(namedThing, person);
+        assertTrue(person instanceof BlankNode);
+        assertEquals(namedThing, person);
         
         final Iterator<Triple> iter3 = graph.filter(null, foafKnows, null);
-        Assert.assertTrue(iter3.hasNext());
+        assertTrue(iter3.hasNext());
         final RDFTerm knownThing = iter3.next().getObject();
-        Assert.assertTrue(knownThing instanceof BlankNode);
-        Assert.assertEquals(knownThing, person);
-        Assert.assertEquals(namedThing, knownThing);
+        assertTrue(knownThing instanceof BlankNode);
+        assertEquals(knownThing, person);
+        assertEquals(namedThing, knownThing);
     }
     
     @Test
@@ -117,12 +123,12 @@ public class BNodeTest {
         final IRI rdfType = new IRI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
 
         final Iterator<Triple> iter = graph.filter(null, foafName, null);
-        Assert.assertTrue(iter.hasNext());
+        assertTrue(iter.hasNext());
         final BlankNodeOrIRI person = iter.next().getSubject();
-        Assert.assertTrue(person instanceof BlankNode);
+        assertTrue(person instanceof BlankNode);
         
         final Iterator<Triple> iter2 = graph.filter(person, rdfType, null);
-        Assert.assertTrue(iter2.hasNext());
+        assertTrue(iter2.hasNext());
     }
     
 

@@ -15,6 +15,9 @@
  */
 package org.apache.clerezza.commons.rdf.impl.sparql;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import com.hp.hpl.jena.query.DatasetAccessor;
 import com.hp.hpl.jena.query.DatasetAccessorFactory;
 import java.io.IOException;
@@ -27,21 +30,24 @@ import java.util.List;
 import java.util.Map;
 import org.apache.clerezza.commons.rdf.Graph;
 import org.apache.clerezza.commons.rdf.RDFTerm;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.platform.runner.JUnitPlatform;
+import org.junit.runner.RunWith;
 
 /**
  *
  * @author reto
  */
+@RunWith(JUnitPlatform.class)
 public class SparqlClientTest {
 
     final static int serverPort = findFreePort();
     static EmbeddedFusekiServer server;
 
-    @BeforeClass
+    @BeforeAll
     public static void prepare() throws IOException {
         final String serviceURI = "http://localhost:" + serverPort + "/ds/data";
         final DatasetAccessor accessor = DatasetAccessorFactory.createHTTP(serviceURI);
@@ -55,7 +61,7 @@ public class SparqlClientTest {
         accessor.putModel(m);
     }
 
-    @AfterClass
+    @AfterAll
     public static void cleanup() {
         server.stop();
     }
@@ -68,7 +74,7 @@ public class SparqlClientTest {
                 "SELECT ?name WHERE { "
                         + "<http://example.org/#spiderman> "
                         + "<http://xmlns.com/foaf/0.1/name> ?name}");
-        Assert.assertEquals("There should be two names", 2, result.size());
+        assertEquals(2, result.size(), "There should be two names");
     }
     
     @Test
@@ -79,7 +85,7 @@ public class SparqlClientTest {
                 "ASK { "
                         + "<http://example.org/#spiderman> "
                         + "<http://xmlns.com/foaf/0.1/name> ?name}");
-        Assert.assertEquals("ASK should result to true", Boolean.TRUE, result);
+        assertEquals(Boolean.TRUE, result, "ASK should result to true");
     }
 
     @Test
@@ -88,7 +94,7 @@ public class SparqlClientTest {
                 "http://localhost:" + serverPort + "/ds/query");
         Object result = sparqlClient.queryResult(
                 "DESCRIBE <http://example.org/#spiderman>");
-        Assert.assertTrue("DESCRIBE should return a graph", result instanceof Graph);
+        assertTrue(result instanceof Graph, "DESCRIBE should return a graph");
     }
 
     public static int findFreePort() {

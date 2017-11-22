@@ -15,6 +15,8 @@
  */
 package org.apache.clerezza.commons.rdf.impl.sparql;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import com.hp.hpl.jena.query.DatasetAccessor;
 import com.hp.hpl.jena.query.DatasetAccessorFactory;
 import java.io.IOException;
@@ -35,21 +37,24 @@ import org.apache.clerezza.commons.rdf.Triple;
 import org.apache.clerezza.commons.rdf.impl.utils.PlainLiteralImpl;
 import org.apache.clerezza.rdf.core.serializedform.Serializer;
 import org.apache.clerezza.rdf.core.serializedform.SupportedFormat;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.platform.runner.JUnitPlatform;
+import org.junit.runner.RunWith;
 
 /**
  *
  * @author reto
  */
+@RunWith(JUnitPlatform.class)
 public class Dadmin2Test {
 
     final static int serverPort = findFreePort();
     static EmbeddedFusekiServer server;
 
-    @BeforeClass
+    @BeforeAll
     public static void prepare() throws IOException {
         final String serviceURI = "http://localhost:" + serverPort + "/ds/data";
         final DatasetAccessor accessor = DatasetAccessorFactory.createHTTP(serviceURI);
@@ -63,7 +68,7 @@ public class Dadmin2Test {
         accessor.putModel(m);
     }
 
-    @AfterClass
+    @AfterAll
     public static void cleanup() {
         server.stop();
     }
@@ -71,7 +76,7 @@ public class Dadmin2Test {
     @Test
     public void graphSize() {
         final Graph graph = new SparqlGraph("http://localhost:" + serverPort + "/ds/query");
-        Assert.assertEquals("Graph not of the exepected size", 12, graph.size());
+        assertEquals(12, graph.size(), "Graph not of the exepected size");
     }
 
     @Test
